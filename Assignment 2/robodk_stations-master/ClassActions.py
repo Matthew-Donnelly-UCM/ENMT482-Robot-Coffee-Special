@@ -4,6 +4,7 @@ import tools
 import numpy as np
 RDK = Robolink()
 tls = tools.Tools(RDK)
+import robodk.robomath as rm
 UR5 = RDK.Item("UR5", ITEM_TYPE_ROBOT)
 
 def Rotational_matrix(theta):
@@ -28,40 +29,31 @@ class InitialiseSimulate:
     robot_program = RDK.Item("Reset_Simulation_R", ITEM_TYPE_PROGRAM)
     robot_program.RunCode()
 class RancilioToMazzerScale:
-    tls.rancilio_tool_attach_r_ati()
-    theta = -2.0934094900519744 #theta calculated
-    R = Rotational_matrix(theta)
-    T = Translation_matrix(439.4,-277.9, 41.9)
-    URtMS_np = R + T
+    # define a joint angle array for an intermediate point: theta_1, theta_2, ..., theta_6 (from base to tool)
+    angle = np.radians(30)
+    # define an HT for a pose in the world frame, near the cup dispenser. This could be something calculated or copied from the RoboDK GUI
+    T_nearcupdispenser_np = np.array([[ np.cos(angle),     -np.sin(angle),        0,  50 ],
+                                    [  np.sin(angle),       np.cos(angle),        0,  50],
+                                    [     0,              0,            1,              50],
+                                    [  0.000000,     0.000000,     0.000000,     1.000000 ]])
 
-    R1 = Rotational_matrix(0)
-    T1 = Translation_matrix(-12.1,-19, 14.5)
-    MStMSBB_np = R1 + T1
+    # convert numpy array into an RDK matrix
+    T_nearcupdispenser = rm.Mat(T_nearcupdispenser_np.tolist())
 
-    R2 = Rotational_matrix(0)
-    T2 = Translation_matrix(-32,0, 28.07)
-    RTtRTBB_np = R2 + T2
+    # reset the sim
+    robot_program = RDK.Item("Reset_Simulation_R", ITEM_TYPE_PROGRAM)
+    robot_program.RunCode()
+    robot_program.WaitFinished()
+
+    UR5.MoveL(T_nearcupdispenser)
     
 
-    R3 = Rotational_matrix(np.pi/180*-50)
-    T3 = Translation_matrix(0, 0, 0)
-    TCPtRT_np = R3 + T3
-
-    RTBBtMSBB_np = np.array([[1,0,0,0],
-                          [0,1,0,0],
-                          [0,0,1,0],
-                          [0,0,0,1]])
-
-    URtTCP = URtMS_np @  MStMSBB_np @ 
-
-
-
-
-
+    # go back home
+    UR5.MoveJ(RDK.Item("Home_R", ITEM_TYPE_TARGET), True)
 
 # example 4x4 matrix 
-#np.array([[ cos(theta),     -sin(theta),     0,         x ],
-#          [  sin(theta),     cos(theta),     0,         y ],
+#np.array([[      0,        0,                0,         x ],
+#          [      0,            0,            0,         y ],
 #          [      0,            0,            1,         z ],
 #          [  0.000000,     0.000000,     0.000000,     1.000000 ]])
 
