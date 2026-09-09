@@ -7,7 +7,7 @@ Bdy = -1
 Eq1 = Bdx*Ady - Bdy*Adx
 Eq2 = Bdx*Adx + Bdy*Ady
 theta = np.arctan2(Eq1, Eq2)
-print(theta)
+print(theta*180/np.pi)
 print("Rotation Matrix")
 R = np.array([[np.cos(theta), -np.sin(theta), 0],
                [np.sin(theta), np.cos(theta), 0],
