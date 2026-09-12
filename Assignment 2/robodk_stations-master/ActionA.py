@@ -42,7 +42,9 @@ def Inverse_transform(R_T,T):
     Trans_inv[0:3,3] = B.ravel()
     print(Trans_inv)
     return(Trans_inv)
-class InitialiseSimulate:
+
+# Now for the actual functions
+def InitialiseSimulateA():
     #   After creating a `Robolink()` object, items within the RoboDK station tree
     #   are able to be retrieved by name, item type, or both.
     # Work in simulation mode
@@ -55,7 +57,7 @@ class InitialiseSimulate:
     robot_program.RunCode()
     robot_program.WaitFinished()
 
-class HomeToMazzerScaleTop:
+def HomeToMazzerScaleTop():
     tls.rancilio_tool_attach_r_ati()
     theta = -60*np.pi/180
     R = Rotational_matrix_z(theta)
@@ -102,11 +104,14 @@ class HomeToMazzerScaleTop:
     
     # convert numpy array into an RDK matrix
     
-    
     UR5.MoveJ(RDK.Item("Home_R", ITEM_TYPE_TARGET), True)
+
+    #preparation move using cartesian coordinates
+    prep_coords = [-4.790000, -100.240000, -127.070000, -130.180000, 7.060000, 140.400000]
+    UR5.MoveJ(prep_coords, blocking=True)
     
     UR5.MoveJ(T_URtTCP, blocking=True)
-class MazzerScaleTopToMazzerScale:
+def MazzerScaleTopToMazzerScale():
     
     #theta = -2.0934094900519744 #theta calculated
     theta = -60*np.pi/180
@@ -155,8 +160,7 @@ class MazzerScaleTopToMazzerScale:
 
     
     tls.student_tool_detach()
-
-class MazzerScaleToHome:
+def MazzerScaleToHome():
     theta = -60*np.pi/180
     R = Rotational_matrix_z(theta)
     T = Translation_matrix(439.4,-277.9, 41.9)
@@ -167,7 +171,8 @@ class MazzerScaleToHome:
     MStMSBB_np = R1 + T1
 
     R2 = Rotational_matrix_z(0)
-    T2 = Translation_matrix(-40,0, 32)
+    #controlling x to control the level of retraction
+    T2 = Translation_matrix(-50,0, 32)
     MSBBtMSRP_np = R2 + T2
 
     R3 = Rotational_matrix_z((np.pi/180)*-50)
@@ -202,66 +207,14 @@ class MazzerScaleToHome:
     Detach_program.RunCode()
     Detach_program.WaitFinished()
 
+    
+
     UR5.MoveL(T_URtTCP, blocking=True)
 
+    #after detachment move to this point to reduce chance of collision
+    detach_point = [-9.880000, -103.840000, -130.680000, -125.740000, 1.410000, 136.940000]
+    UR5.MoveJ(detach_point, True)
     UR5.MoveJ(RDK.Item("Home_R", ITEM_TYPE_TARGET), True)
-
-class HomeToMazzerTool:
-    #Getting rid of the tool just from simulation, remove afterwards
-    tls.rancilio_tool_detach_r_ati()
-
-    tls.mazzer_tool_attach_r_ati()
-
-    UR5.MoveJ(RDK.Item("Home_R", ITEM_TYPE_TARGET), True)
-
-    #Maticies to solve for location 
-    theta = -60*np.pi/180
-    R = Rotational_matrix_z(theta)
-    T = Translation_matrix(439.4,-277.9, 41.9)
-    URtMS_np = R + T
-
-    R1 = Rotational_matrix_x(-50)
-    T1 = Translation_matrix(31.5,-59.53, -15)
-    MStMSLLR_np = R1 + T1
-
-    R2 = Rotational_matrix_z((np.pi/180)*-50)
-    T2 = Translation_matrix(0, 0, 0)
-    TCPtMT_np = R2 + T2
-
-    #inverse
-    R2_inv = Rotational_matrix_z_inverse_z((np.pi/180)*-50)
-    T2_inv = Translation_matrix_inverse(0,0,0)
-    TCPtMT_inv_np = Inverse_transform(R2_inv,T2_inv)
-
-    R3 = Rotational_matrix_z(0)
-    T3 = Translation_matrix(0, 0, 102.82)
-    MTtMTCCT_np = R3 + T3
-
-    #inverse
-    R3_inv = Rotational_matrix_z_inverse_z(0)
-    T3_inv = Translation_matrix_inverse(0,0,102.82)
-    MTtMTCCT_inv_np = Inverse_transform(R3_inv,T3_inv)
-
-    R4 = np.array([[0,0,1,0],
-                       [0,-1,0,0],
-                       [1,0,0,0],
-                       [0,0,0,0]])
-    T4 = Translation_matrix(0, 0, 0)
-    MTCCTtMSLLR = R4 + T4
-
-    #inverse matrix
-    R4_3x3 = np.array([[0,0,1,],
-                       [0,-1,0,],
-                       [1,0,0,]])
-    R4_inv = np.transpose(R4_3x3)
-    T4_inv = Translation_matrix_inverse(0,0,0)
-    MTCCTtMSLLR_inv_np = Inverse_transform(R4_inv,T4_inv)
-
-    URtTCP = URtMS_np @  MStMSLLR_np @ MTCCTtMSLLR_inv_np @ MTtMTCCT_inv_np @ TCPtMT_inv_np
-
-    T_URtTCP = rm.Mat(URtTCP.tolist())
-    UR5.MoveL(T_URtTCP, blocking=True)
-
 # example 4x4 matrix 
 #np.array([[      0,        0,                0,         x ],
 #          [      0,            0,            0,         y ],
