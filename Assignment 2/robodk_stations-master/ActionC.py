@@ -87,15 +87,10 @@ def InitialiseSimulateA():
 def home_to_mazzer_button():
     tls.mazzer_tool_attach_r_ati()
 
-    #calculating transform for URtM
-    theta = -30*np.pi/180
-    R = Rotational_matrix_z(theta)
-
-    theta_2 = -30
-    theta_2 = theta_2*np.pi/180
-    R2 = Rotational_matrix_x(theta_2)
-    R = R @ R2
-
+    # calculated by doing the cross product of x and y vectors and finding rotation manually
+    R = np.array[[-0.874, 0.203, 0.441],
+                 [0.486, -0.367, 0.796],
+                 [0, 0.908, 0.222]]
     x = 504.4
     y = -419.7
     z = 319.5
@@ -130,9 +125,9 @@ def home_to_mazzer_button():
                     [0,1,0],
                     [0,0,1]])
     
-    MOBRtMTCCT = inverse_transform_matrix(R4, 0, 0, 0)
+    MtMTCCT = inverse_transform_matrix(R4, 0, 0, 0)
 
-    URtTCP = URtM @ MtMOBR @ MOBRtMTCCT @ MTCCTtMT @ MTtTCP
+    URtTCP = URtM @ MtMTCCT @ MTCCTtMT @ MTtTCP
 
     T_URtTCP = rm.Mat(URtTCP.tolist())
     UR5.MoveJ(T_URtTCP, blocking=True)
