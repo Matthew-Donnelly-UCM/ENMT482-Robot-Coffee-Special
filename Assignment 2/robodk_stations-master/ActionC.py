@@ -88,21 +88,16 @@ def home_to_mazzer_button():
     tls.mazzer_tool_attach_r_ati()
 
     # calculated by doing the cross product of x and y vectors and finding rotation manually
-    R = np.array[[-0.874, 0.203, 0.441],
-                 [0.486, -0.367, 0.796],
-                 [0, 0.908, 0.222]]
+    R = np.array([[-0.874, 0.203, -0.441],
+                 [-0.486, -0.367, 0.794],
+                 [0, 0.908, 0.420]])
     x = 504.4
     y = -419.7
     z = 319.5
 
+    # Mazzer Frame transform
     URtM = transform_matrix(R, x, y, z)
 
-    #MtMOBR
-    x = 89.6
-    y = -189.5
-    z = -143
-    R = Rotational_matrix_z(0)
-    MtMOBR = transform_matrix(R, x, y, z)
 
     theta = (np.pi/180)*-50 
     R2 = Rotational_matrix_z(theta)
@@ -125,12 +120,14 @@ def home_to_mazzer_button():
                     [0,1,0],
                     [0,0,1]])
     
-    MtMTCCT = inverse_transform_matrix(R4, 0, 0, 0)
+    MOBRtMTCCT = inverse_transform_matrix(R4, 0, 0, 0)
 
     URtTCP = URtM @ MtMTCCT @ MTCCTtMT @ MTtTCP
 
     T_URtTCP = rm.Mat(URtTCP.tolist())
-    UR5.MoveJ(T_URtTCP, blocking=True)
+    mid_joint = [-42.227066, -107.460073, -97.995638, -64.245694, 90.113015, -42.023488]
+    UR5.MoveJ(mid_joint, blocking=True)
+    UR5.MoveL(rm.UR_2_Pose(rm.Pose_2_UR(T_URtTCP)), blocking=True)
     
 # example 4x4 matrix 
 #np.array([[      0,        0,                0,         x ],
