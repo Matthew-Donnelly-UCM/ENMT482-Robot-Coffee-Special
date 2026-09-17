@@ -127,7 +127,7 @@ def ActionO():
 
     key51 = [0, 0, 102.82]  # Mazzer tool offset
 
-    theta = -np.pi/2  # Mazzer tool is RS frame rotated 90 degrees
+    theta = np.pi/2  # Mazzer tool is RS frame rotated 90 degrees
 
     R4 = Rotational_matrix_z(theta)
     T4 = Translation_matrix(key51[0], key51[1], key51[2])
@@ -138,11 +138,11 @@ def ActionO():
     UR_T_TCP = UR_T_RSLockLever @ MTtip_T_MT @ MT_T_TCP
 
     # Intermediate 1 is used to avoid hitting the Tool Rack
-    Intermediate1 = [-80.770000, -84.230000, -103.250000, -71.230000, 90.250000, -133.53]
+    Intermediate1 = [-80.770000, -84.230000, -103.250000, -71.230000, 90.250000, 133.53]
     UR5.MoveJ(Intermediate1, blocking = True)
 
     # Intermediate 2 gets close to the lever
-    Intermediate2 = [-123.460000, -102.690000, -113.080000, -43.850000, 90.000000, -133.53]
+    Intermediate2 = [-123.460000, -102.690000, -113.080000, -43.850000, 90.000000, 133.53]
     UR5.MoveJ(Intermediate2, blocking = True)
 
     # Convert from numpy and move
@@ -151,7 +151,7 @@ def ActionO():
 
     # Slide the lock lever in x to activate it
 
-    LockLeverDisplacement_x = 150
+    LockLeverDisplacement_x = 35
     key42_slide = [key42[0] - LockLeverDisplacement_x, key42[1], key42[2]]
     T2_slide = Translation_matrix(key42_slide[0], key42_slide[1], key42_slide[2])
     RS_T_RSLockLever_slide = R2 + T2_slide
@@ -161,18 +161,15 @@ def ActionO():
     T_UR_T_TCP_slide = rm.Mat(UR_T_TCP_slide.tolist())
     UR5.MoveJ(T_UR_T_TCP_slide, blocking=True)
 
-    # # Push down on the Lock Lever
+    # Push down on the Lock Lever (Commented out as may be uneccesary)
 
-    # LockLeverDisplacement_y = 5
-    # key42_down = [key42[0] - LockLeverDisplacement_y, key42[1], key42[2] - LockLeverDisplacement_y]
-    # T2_down = Translation_matrix(key42_down[0], key42_down[1], key42_down[2])
-    # RS_T_RSLockLever_down = R2 + T2_down
-    # UR_T_RSLockLever_down = UR_T_RS @ RS_T_RSLockLever_down
-    # UR_T_TCP_down = UR_T_RSLockLever_down @ MTtip_T_MT @ MT_T_TCP
+    LockLeverDisplacement_y = 10
+    key42_down = [key42_slide[0], key42_slide[1], key42_slide[2] - LockLeverDisplacement_y]
+    T2_down = Translation_matrix(key42_down[0], key42_down[1], key42_down[2])
+    RS_T_RSLockLever_down = R2 + T2_down
+    UR_T_RSLockLever_down = UR_T_RS @ RS_T_RSLockLever_down
+    UR_T_TCP_down = UR_T_RSLockLever_down @ MTtip_T_MT @ MT_T_TCP
 
-    # T_UR_T_TCP_down = rm.Mat(UR_T_TCP_down.tolist())
-    # UR5.MoveJ(T_UR_T_TCP_down, blocking=True)
+    T_UR_T_TCP_down = rm.Mat(UR_T_TCP_down.tolist())
+    UR5.MoveJ(T_UR_T_TCP_down, blocking=True)
 
-
-
-ActionO()
