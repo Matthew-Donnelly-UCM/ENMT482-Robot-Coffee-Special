@@ -165,7 +165,7 @@ def home_to_mazzer_button():
     URtTCP = URtM @ MtMOBC @ MOBCtMOBCF @ MOBCFtMOBCFR @ MOBCFRtMOBCFRR @ MOBCFRRtMTCCT @ MTCCTtMT @ MTtTCP
 
     T_URtTCP = rm.Mat(URtTCP.tolist())
-    mid_joint = [-43.475324, -95.175915, -123.839518, -50.897660, 89.958008, -187.948711]
+    mid_joint = [-51.551494, -92.145478, -127.106194, -50.606335, 89.987358, -196.021636]
     mid_joint_pose_2 = [-56.562479, -113.922327, -115.191222, -130.450281, 229.822187, -194.760804]
     UR5.MoveJ(mid_joint, blocking=True)
     UR5.MoveJ(mid_joint_pose_2, blocking=True)
@@ -454,7 +454,8 @@ def mazzer_button_turn_off_pressed():
 
     T_URtTCP = rm.Mat(URtTCP.tolist())
     UR5.MoveJ(rm.UR_2_Pose(rm.Pose_2_UR(T_URtTCP)), blocking=True)
-    last_point = [-46.097256, -108.848013, -105.778158, -235.136370, 270.102890, -219.737992]
+
+    last_point = [-54.053837, -108.975276, -98.878399, -229.293149, 278.261720, -228.959691]
     time.sleep(1)
     UR5.MoveJ(last_point, blocking=True)
     UR5.MoveJ(RDK.Item("Home_R", ITEM_TYPE_TARGET), True)

@@ -27,7 +27,7 @@ robot_program.RunCode()
 robot_program.WaitFinished()
 
 
-Actions = [0, 0, 1, 0, 0, 0, 0]
+Actions = [1, 0, 1, 0, 0, 0, 0]
 
 if Actions[0] == 1:
     #Action A
