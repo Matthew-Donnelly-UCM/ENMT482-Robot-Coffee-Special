@@ -126,13 +126,12 @@ def ActionR():
     TCP_T_MT = R3 + T3
     CT_T_TCP = inverse_transform_z(theta, key50[0], key50[1], key50[2])
 
-    key48 = [-104.5, 0, 186.62]  # Cup tool top face centre (open)
 
+    key48 = [-104.5, 0, 186.62]  # Cup tool top face centre (open)
     theta = -np.pi
     R4 = Rotational_matrix_x(theta)
     T4 = Translation_matrix(key48[0], key48[1], key48[2])
     CT_T_CTtopfacecentre = R4 + T4
-    CTtopfacecentre_T_CT = inverse_transform_matrix(R4[0:3, 0:3], key48[0], key48[1], key48[2])
     CTtopfacecentre_T_CT = inverse_transform_z(theta, key48[0], key48[1], key48[2])
 
     # Now can calculate the Cup Tool centre point, with respect to the Robots Frame
