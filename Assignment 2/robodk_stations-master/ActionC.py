@@ -214,7 +214,7 @@ def mazzer_button_pressed_on():
         #press that fucker 
         theta = 0
         R = Rotational_matrix_x(theta)
-        MOBCFRRtMOBCFRRP = transform_matrix(R,0,0,-5)
+        MOBCFRRtMOBCFRRP = transform_matrix(R,0,0,-10)
     
         MTtTCP = inverse_transform_z(theta, 0, 0, 0)
     
@@ -424,7 +424,7 @@ def mazzer_button_turn_off_pressed():
     #press that fucker 
     theta = 0
     R = Rotational_matrix_x(theta)
-    MOBCFRRtMOBCFRRP = transform_matrix(R,0,0,-5)
+    MOBCFRRtMOBCFRRP = transform_matrix(R,0,0,-15)
     
     theta = -50 
     R2 = Rotational_matrix_z(theta)

@@ -75,7 +75,7 @@ def ActionR():
     Use the cup tool to carefully pick up the cup of coffee and place it in the customer zone.
 
     """
-    tls.cup_tool_attach_l_ati()
+    tls.cup_tool_attach_r_ati()
     tls.cup_tool_open_ur5()
 
     # Once the cup tool has been attached, send the Robot to the Rancillo Scale Origin at top cover fastener (left)
@@ -141,11 +141,6 @@ def ActionR():
     Intermediate1 = [-12.690000, -128.230000, 148.850000, -30.080000, 26.540000, -219.270000]
     UR5.MoveJ(Intermediate1, blocking = True)
 
-    # # Intermediate 2 gets close to the lever
-    # Intermediate2 = [-124.536217, -102.458408, -117.925306, -49.697151, 90.347445, 46.204414]
-    # UR5.MoveJ(Intermediate2, blocking = True)
-
-
     T_UR_T_TCP = rm.Mat(UR_T_TCP.tolist())
     UR5.MoveJ(rm.UR_2_Pose(rm.Pose_2_UR(T_UR_T_TCP)), blocking=True)
 
@@ -153,18 +148,20 @@ def ActionR():
 
     time.sleep(1)
 
-
-
-    # Intermediate 2 is used to back out of the RS
-    Intermediate2 = [-4.620000, -64.330000, 104.020000, -38.540000, -58.850000, -221.200000]
+    Intermediate2 = [12.250000, -87.720000, 118.880000, -31.740000, 13.160000, -219.280000]
     UR5.MoveJ(Intermediate2, blocking = True)
 
+
     # Intermediate 3 is used to back out of the RS
-    Intermediate3 = [-4.620000, -64.330000, 104.020000, -38.540000, -141.920000, -221.200000]
+    Intermediate3 = [-4.620000, -64.330000, 104.020000, -38.540000, -58.850000, -221.200000]
     UR5.MoveJ(Intermediate3, blocking = True)
 
+    # Intermediate 4 is used to back out of the RS
+    Intermediate4 = [-4.620000, -64.330000, 104.020000, -38.540000, -141.920000, -221.200000]
+    UR5.MoveJ(Intermediate4, blocking = True)
 
 
+    # Original Code for finding Cup placement (Unused)
     # cup_size = 75 + 51.5
     # key62 = [-450, 200,	cup_size]
 
@@ -182,4 +179,7 @@ def ActionR():
 
     Intermediate4 = [35.770000, -64.330000, 104.020000, -38.540000, -141.920000, -221.200000]
     UR5.MoveJ(Intermediate4, blocking = True)
+
+    tls.cup_tool_shut_ur5()
+    tls.cup_tool_detach_l_ati()
 

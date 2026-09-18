@@ -82,8 +82,8 @@ def ActionQ():
     Key 40: 0, -38, 0 -> Rancilio Scale Origin at top cover fastener (right)
     """
 
-    # Get the Mazzer tool
-    tls.mazzer_tool_attach_r_ati() 
+    # # Get the Mazzer tool (only necessary on single actions)
+    # tls.mazzer_tool_attach_r_ati() 
 
 
     # Once the tool has been attached, send the Robot to the Rancillo Scale Origin at top cover fastener (left)
@@ -172,4 +172,14 @@ def ActionQ():
 
     T_UR_T_TCP_down = rm.Mat(UR_T_TCP_down.tolist())
     UR5.MoveJ(T_UR_T_TCP_down, blocking=True)
+
+    # Moves head away from lock
+    Intermediate2 = [-124.070000, -109.180000, -108.630000, -52.250000, 123.050000, 46.640000]
+    UR5.MoveJ(Intermediate2, blocking = True)
+
+    Intermediate3 = [-124.070000, -75.480000, -140.430000, -52.250000, 123.050000, 46.640000]
+    UR5.MoveJ(Intermediate3, blocking = True)
+
+
+    tls.mazzer_tool_detach_r_ati()
 

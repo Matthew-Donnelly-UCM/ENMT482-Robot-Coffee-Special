@@ -10,6 +10,7 @@ import robodk_scales
 from modbus_scale_client import modbus_scale_client
 
 
+
 UR5 = RDK.Item("UR5", ITEM_TYPE_ROBOT)
 
 IP_RANCILIO_3 = "192.168.22.4"
@@ -83,8 +84,7 @@ def ActionP():
 
     """
 
-    # Get the Mazzer tool
-    tls.mazzer_tool_attach_r_ati() 
+    # Get the Mazzer tool (Only necessary on Action testing runs)
 
     # Once the tool has been attached, send the Robot to the Rancillo Scale Origin at top cover fastener (left)
 
@@ -165,23 +165,27 @@ def ActionP():
 
     # Handling Scale inputs
 
-    client = modbus_scale_client.ModbusScaleClient(host = IP_RANCILIO_3)
-
     target = 32
     tolerance = 0.1
+
+    client = modbus_scale_client.ModbusScaleClient(host = IP_RANCILIO_3)
 
     if client.server_exists() == False:
         RDK.ShowMessage("No scale detected, output will be simulated.")
 
+    ## Scale output (grams).
+    value = client.read()
+
+    RDK.ShowMessage("Value = %f" % value)
 
     while (1):
         
         value = client.read() # Scale Output in grams
 
-        if (abs(value - target) <= tolerance):
+        if ((value) > (target - tolerance)):
             break
 
-    RDK.ShowMessage("Value = %f" % value)
+        RDK.ShowMessage("Value = %f" % value)
 
     # Slide the button in the Y to turn off the hot water
 

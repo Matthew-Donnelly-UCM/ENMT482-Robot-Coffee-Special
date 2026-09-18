@@ -166,7 +166,7 @@ def ActionS():
 
     key38_withdepth = [-14.2,	68.7, -145.4 - RancilloToolDepth] # Below the GroupGasket (centre)
 
-    theta = 3*np.pi/2 + ((1.7 * np.pi)/180) # Adding the 1.7 degree tilt 
+    theta = 3*np.pi/2 + ((3.4 * np.pi)/180) # Adding the 1.7 degree tilt 
     R2_below = Rotational_matrix_y(theta) # Adjusting the tool rotation
     T2_below = Translation_matrix(key38_withdepth[0], key38_withdepth[1], key38_withdepth[2])
 
@@ -179,8 +179,8 @@ def ActionS():
     UR5.MoveJ(Intermediate1, blocking = True)
     
     # Directly in line and out from Rancillo Tool
-    Intermediate1 = [-135.170664, -89.856843, -131.207732, -136.992574, -104.728137, -219.155526]
-    UR5.MoveJ(Intermediate1, blocking = True)
+    Intermediate2 = [-135.170664, -89.856843, -131.207732, -136.992574, -104.728137, -219.155526]
+    UR5.MoveJ(Intermediate2, blocking = True)
 
     # Where the Rancillo tool was left in Action I
 
@@ -188,6 +188,10 @@ def ActionS():
     UR5.MoveL(rm.UR_2_Pose(rm.Pose_2_UR(T_UR_T_TCP_locked)), blocking=True)
 
     tls.student_tool_attach()
+
+    UR5.MoveL(rm.UR_2_Pose(rm.Pose_2_UR(T_UR_T_TCP_locked)), blocking=True)
+
+    time.sleep(2)
 
     # Rotate to unlock the Rancillo tool
     T_UR_T_TCP = rm.Mat(UR_T_TCP.tolist())
@@ -203,8 +207,7 @@ def ActionS():
     UR5.MoveL(rm.UR_2_Pose(rm.Pose_2_UR(T_UR_T_TCP_below)), blocking=True)
 
 
-    # go back home
-    UR5.MoveJ(RDK.Item("Home_R", ITEM_TYPE_TARGET), True)
+    
 
 
 

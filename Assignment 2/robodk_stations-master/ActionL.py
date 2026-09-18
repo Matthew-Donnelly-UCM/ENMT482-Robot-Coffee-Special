@@ -75,7 +75,6 @@ def ActionL():
     Remove the Rancilio tool from the PUQ fixture, and insert it into the Rancilio group head.
 
     """
-    tls.rancilio_tool_attach_r_ati()
 
     # Once the tool has been attached, send the Robot to the Rancillo Origin at top cover fastener (left)
     
@@ -102,12 +101,12 @@ def ActionL():
     key38 = [-14.2,	68.7, -145.4] # GroupGasket (centre)
     key38_withdepth = [-14.2,	68.7, -145.4 - RancilloToolDepth] # Below the GroupGasket (centre)
 
-    theta = 3*np.pi/2 + ((1.7 * np.pi)/180) # Adding the 1.7 degree tilt 
+    theta = 3*np.pi/2 + ((3.4 * np.pi)/180) # Adding the 1.7 degree tilt 
     R2_below = Rotational_matrix_y(theta) # Adjusting the tool rotation
     T2_below = Translation_matrix(key38_withdepth[0], key38_withdepth[1], key38_withdepth[2])
 
     R2 = Rotational_matrix_y(theta) # Adjusting the tool rotation
-    T2 = Translation_matrix(key38[0], key38[1], key38[2])
+    T2 = Translation_matrix(key38_withdepth[0], key38_withdepth[1], key38_withdepth[2])
 
     R_T_Rgrouphead= R2 + T2
     R_T_Rbelowgrouphead= R2_below + T2_below
@@ -164,12 +163,13 @@ def ActionL():
     # For the reversing out of tool attachment
     theta = 0
     R5 = Rotational_matrix_x(theta)
-    T5 = Translation_matrix(key55[0], key55[1], key55[2])
+    T5 = Translation_matrix(key55_reversing[0], key55_reversing[1], key55_reversing[2])
 
     RT_T_RTbasketrim_reverseout = R5 + T5
     RTbasketrim_T_RT_reverseout = inverse_transform_matrix(
         R5[0:3, 0:3], key55_reversing[0], key55_reversing[1], key55_reversing[2]
     )
+
 
 
     # Now can calculate the Cup Tool centre point, with respect to the Robots Frame
@@ -193,6 +193,9 @@ def ActionL():
 
     T_UR_T_TCP_unlocked = rm.Mat(UR_T_TCP_unlocked.tolist())
     UR5.MoveJ(rm.UR_2_Pose(rm.Pose_2_UR(T_UR_T_TCP_unlocked)), blocking=True)
+    UR5.MoveL(rm.UR_2_Pose(rm.Pose_2_UR(T_UR_T_TCP_unlocked)), blocking=True)
+
+    time.sleep(2)
 
     T_UR_T_TCP = rm.Mat(UR_T_TCP.tolist())
     T_UR_T_TCP_locked = rm.Mat(UR_T_TCP_locked.tolist())
@@ -206,11 +209,6 @@ def ActionL():
 
     T_UR_T_TCP_reverseout = rm.Mat(UR_T_TCP_reverseout.tolist())
     UR5.MoveL(rm.UR_2_Pose(rm.Pose_2_UR(T_UR_T_TCP_reverseout)), blocking=True)
-
-
-
-
-
 
 
 # ActionL()
