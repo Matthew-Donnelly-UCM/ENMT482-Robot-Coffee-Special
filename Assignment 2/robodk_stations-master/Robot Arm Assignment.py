@@ -2,9 +2,8 @@ from time import sleep
 from robodk.robolink import *
 from ActionA import InitialiseSimulateA, HomeToMazzerScaleTop, MazzerScaleTopToMazzerScale, MazzerScaleToHome
 from ActionB import HomeToMazzerScaleLockLeverRightTop, SlideInXDirectionAcrossLock, SlideInzDirectionAcrossLock
-from ActionL import ActionL
 from ActionO import ActionO
-from ActionP import ActionP
+#from ActionP import ActionP
 from ActionQ import ActionQ
 from ActionR import ActionR
 from ActionS import ActionS
@@ -64,9 +63,15 @@ if Actions[1] == 1:
     HomeToMazzerScaleLockLeverRightTop()
     SlideInXDirectionAcrossLock()
     SlideInzDirectionAcrossLock()
-if Actions[11] == 1:
-    ActionL()
-if Actions[14] == 1:
+if Actions[2] == 1:
+    home_to_mazzer_button()
+    mazzer_button_pressed_on()
+    mazzer_press()
+    mazzer_wait()
+    mazzer_button_turn_off()
+    mazzer_button_turn_off_pressed()
+if Actions[3] == 1:
+    # Action O
     ActionO()
 if Actions[15] == 1:
     ActionP() # Scale simulation isn't working
