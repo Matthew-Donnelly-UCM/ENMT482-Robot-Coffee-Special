@@ -151,6 +151,9 @@ def ActionR():
     Intermediate2 = [12.250000, -87.720000, 118.880000, -31.740000, 13.160000, -219.280000]
     UR5.MoveJ(Intermediate2, blocking = True)
 
+    visual_program = RDK.Item("Hide_Rancilio_Scale_Cup", ITEM_TYPE_PROGRAM)
+    visual_program.RunCode()
+    visual_program.WaitFinished()
 
     # Intermediate 3 is used to back out of the RS
     Intermediate3 = [-4.620000, -64.330000, 104.020000, -38.540000, -58.850000, -221.200000]

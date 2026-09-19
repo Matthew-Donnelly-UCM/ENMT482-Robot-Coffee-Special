@@ -98,7 +98,7 @@ def ActionS():
 
     key38 = [-14.2,	68.7, -145.4] # GroupGasket (centre)
 
-    theta = 3*np.pi/2 + ((1.7 * np.pi)/180) # Match the group-head frame used in ActionI
+    theta = 3*np.pi/2 + ((3.4 * np.pi)/180) # Match the group-head frame used in ActionI
     R2 = Rotational_matrix_y(theta) # Adjusting the tool rotation
     T2 = Translation_matrix(key38[0], key38[1], key38[2])
 
@@ -161,7 +161,7 @@ def ActionS():
 
 
 
-    fiddlefactor = 10
+    fiddlefactor = -8
     RancilloToolDepth = 29.3 + fiddlefactor
 
     key38_withdepth = [-14.2,	68.7, -145.4 - RancilloToolDepth] # Below the GroupGasket (centre)
@@ -189,6 +189,9 @@ def ActionS():
 
     tls.student_tool_attach()
 
+
+
+
     UR5.MoveL(rm.UR_2_Pose(rm.Pose_2_UR(T_UR_T_TCP_locked)), blocking=True)
 
     time.sleep(2)
@@ -202,12 +205,22 @@ def ActionS():
         blocking=True,
     )
 
+    visual_program = RDK.Item("Hide_Rancilio_Rancilio_Tool_Rotated", ITEM_TYPE_PROGRAM)
+    visual_program.RunCode()
+    visual_program.WaitFinished()
+
+
 
     T_UR_T_TCP_below = rm.Mat(UR_T_TCP_below.tolist())
     UR5.MoveL(rm.UR_2_Pose(rm.Pose_2_UR(T_UR_T_TCP_below)), blocking=True)
 
+    Intermediate3 = [-104.040000, -107.280000, -114.310000, -133.840000, 49.95, -221.430000]
+    UR5.MoveJ(Intermediate3, blocking = True)
 
-    
+    Intermediate4 = [-104.040000, -77.510000, -129.190000, -133.840000, 49.95, -221.430000]
+    UR5.MoveJ(Intermediate4, blocking = True)
+
+
 
 
 

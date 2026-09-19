@@ -35,6 +35,7 @@ def Translation_matrix(x,y,z):
                   [0, 0, 0,y],
                   [0, 0, 0, z],
                   [0, 0, 0, 1]])
+
 def Translation_matrix_inverse(x,y,z):
     return np.array([[x],
                      [y],
@@ -128,11 +129,12 @@ def ActionQ():
     key51 = [0, 0, 102.82]  # Mazzer tool offset
 
     theta = np.pi/2  # Mazzer tool is RS frame rotated 90 degrees
+    theta2 = np.deg2rad(-45)
 
-    R4 = Rotational_matrix_z(theta)
+    R4 = Rotational_matrix_z(theta) @ Rotational_matrix_x(theta2)
     T4 = Translation_matrix(key51[0], key51[1], key51[2])
     MT_T_MTtip = R4 + T4
-    MTtip_T_MT = inverse_transform_z(theta, key51[0], key51[1], key51[2])
+    MTtip_T_MT = inverse_transform_matrix(R4[0:3, 0:3], key51[0], key51[1], key51[2])
 
     # Now can calculate the Mazzer Tool tip centre point, with respect to the Robots Frame
     UR_T_TCP = UR_T_RSLockLever @ MTtip_T_MT @ MT_T_TCP
@@ -142,7 +144,7 @@ def ActionQ():
     UR5.MoveJ(Intermediate1, blocking = True)
 
     # Intermediate 2 gets close to the lever
-    Intermediate2 = [-124.536217, -102.458408, -117.925306, -49.697151, 90.347445, 46.204414]
+    Intermediate2 = [-101.760000, -101.760000, -127.410000, -59.480000, 47.250000, 70.860000]
     UR5.MoveJ(Intermediate2, blocking = True)
 
     # Convert from numpy and move
@@ -173,11 +175,15 @@ def ActionQ():
     T_UR_T_TCP_down = rm.Mat(UR_T_TCP_down.tolist())
     UR5.MoveJ(T_UR_T_TCP_down, blocking=True)
 
-    # Moves head away from lock
-    Intermediate2 = [-124.070000, -109.180000, -108.630000, -52.250000, 123.050000, 46.640000]
-    UR5.MoveJ(Intermediate2, blocking = True)
+    visual_program = RDK.Item("Show_Rancilio_Scale_Lock", ITEM_TYPE_PROGRAM)
+    visual_program.RunCode()
+    visual_program.WaitFinished()
 
-    Intermediate3 = [-124.070000, -75.480000, -140.430000, -52.250000, 123.050000, 46.640000]
+    # # Moves head away from lock
+    # Intermediate2 = [-124.070000, -109.180000, -108.630000, -52.250000, 123.050000, 46.640000]
+    # UR5.MoveJ(Intermediate2, blocking = True)
+
+    Intermediate3 = [-80.250000, -75.480000, -140.420000, -52.230000, 45.320000, 46.630000]
     UR5.MoveJ(Intermediate3, blocking = True)
 
 

@@ -52,10 +52,10 @@ Actions = [
     0,  # O
     0,  # P
     0,  # Q
-    1,  # R
-    0,  # S
-    0,  # T
-    0,  # U
+    0,  # R
+    1,  # S
+    1,  # T
+    1,  # U
     0,  # V
 ]
 
@@ -80,11 +80,20 @@ if Actions[2] == 1:
 
 if Actions[11] == 1:
     # Action L
-    # tls.rancilio_tool_attach_r_ati() # only for seperate testing
+    visual_program = RDK.Item("Show_Rancilio_Scale_Cup", ITEM_TYPE_PROGRAM)
+    visual_program.RunCode()
+    visual_program.WaitFinished()
+    tls.rancilio_tool_attach_r_ati() # only for seperate testing
     ActionL()
 
 if Actions[14] == 1:
     # Action O
+    visual_program = RDK.Item("Show_Rancilio_Scale_Cup", ITEM_TYPE_PROGRAM)
+    visual_program.RunCode()
+    visual_program.WaitFinished()
+    visual_program = RDK.Item("Show_Rancilio_Rancilio_Tool_Rotated", ITEM_TYPE_PROGRAM)
+    visual_program.RunCode()
+    visual_program.WaitFinished()
     ActionO()
 
 if Actions[15] == 1:
@@ -94,21 +103,35 @@ if Actions[15] == 1:
 
 if Actions[16] == 1:
     # Action Q
+    # visual_program = RDK.Item("Show_Rancilio_Scale_Read", ITEM_TYPE_PROGRAM)
+    # visual_program.RunCode()
+    # visual_program.WaitFinished()
     # tls.mazzer_tool_attach_r_ati() # Only for seperate testing
     ActionQ()
 
-if Actions[17] == 1:
-    # Action R
-    ActionR()
-
 if Actions[18] == 1:
     # Action S
+    tls.rancilio_tool_attach_r_ati() # only for seperate testing
+    visual_program = RDK.Item("Show_Rancilio_Scale_Cup", ITEM_TYPE_PROGRAM)
+    visual_program.RunCode()
+    visual_program.WaitFinished()
     ActionS()
 if Actions[19] == 1:
     # Action T
+
     # tls.rancilio_tool_attach_r_ati() # only for seperate testing
     ActionT()
 if Actions[20] == 1:
     # Action U
     ActionU()
+
+if Actions[17] == 1:
+    # Action R
+    # visual_program = RDK.Item("Show_Rancilio_Scale_Cup", ITEM_TYPE_PROGRAM)
+    # visual_program.RunCode()
+    # visual_program.WaitFinished()
+    # visual_program = RDK.Item("Show_Rancilio_Rancilio_Tool_Rotated", ITEM_TYPE_PROGRAM)
+    # visual_program.RunCode()
+    # visual_program.WaitFinished()
+    ActionR()
 

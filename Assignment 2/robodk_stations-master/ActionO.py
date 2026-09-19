@@ -127,12 +127,16 @@ def ActionO():
 
     key51 = [0, 0, 102.82]  # Mazzer tool offset
 
-    theta = np.pi/2  # Mazzer tool is RS frame rotated 90 degrees
+    theta = -np.pi/2  # Mazzer tool is RS frame rotated 90 degrees
+    theta2 = np.deg2rad(-45)
+    R4 = Rotational_matrix_z(theta) @ Rotational_matrix_x(theta2)
 
-    R4 = Rotational_matrix_z(theta)
     T4 = Translation_matrix(key51[0], key51[1], key51[2])
     MT_T_MTtip = R4 + T4
-    MTtip_T_MT = inverse_transform_z(theta, key51[0], key51[1], key51[2])
+    MTtip_T_MT = inverse_transform_matrix(R4[0:3, 0:3], key51[0], key51[1], key51[2])
+
+
+
 
     # Now can calculate the Mazzer Tool tip centre point, with respect to the Robots Frame
     UR_T_TCP = UR_T_RSLockLever @ MTtip_T_MT @ MT_T_TCP
@@ -142,7 +146,7 @@ def ActionO():
     UR5.MoveJ(Intermediate1, blocking = True)
 
     # Intermediate 2 gets close to the lever
-    Intermediate2 = [-123.460000, -102.690000, -113.080000, -43.850000, 90.000000, 133.53]
+    Intermediate2 = [-102.520000, -105.280000, -112.640000, -59.480000, 47.250000, 250.850000]
     UR5.MoveJ(Intermediate2, blocking = True)
 
     # Convert from numpy and move
@@ -172,4 +176,8 @@ def ActionO():
 
     T_UR_T_TCP_down = rm.Mat(UR_T_TCP_down.tolist())
     UR5.MoveJ(T_UR_T_TCP_down, blocking=True)
+
+    visual_program = RDK.Item("Show_Rancilio_Scale_Read", ITEM_TYPE_PROGRAM)
+    visual_program.RunCode()
+    visual_program.WaitFinished()
 

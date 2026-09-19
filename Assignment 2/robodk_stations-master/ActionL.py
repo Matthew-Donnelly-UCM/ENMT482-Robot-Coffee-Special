@@ -95,7 +95,7 @@ def ActionL():
 
     # Once in the Rancillo Coordinate system, need to move to the Rancillo Group Head
     
-    fiddlefactor = 10
+    fiddlefactor = -8
     RancilloToolDepth = 29.3 + fiddlefactor
 
     key38 = [-14.2,	68.7, -145.4] # GroupGasket (centre)
@@ -189,7 +189,7 @@ def ActionL():
     UR5.MoveJ(Intermediate1, blocking = True)
 
     T_UR_T_TCP_below = rm.Mat(UR_T_TCP_below.tolist())
-    UR5.MoveJ(rm.UR_2_Pose(rm.Pose_2_UR(T_UR_T_TCP_below)), blocking=True)
+    UR5.MoveL(rm.UR_2_Pose(rm.Pose_2_UR(T_UR_T_TCP_below)), blocking=True)
 
     T_UR_T_TCP_unlocked = rm.Mat(UR_T_TCP_unlocked.tolist())
     UR5.MoveJ(rm.UR_2_Pose(rm.Pose_2_UR(T_UR_T_TCP_unlocked)), blocking=True)
@@ -206,6 +206,9 @@ def ActionL():
     )
 
     tls.student_tool_detach()
+    visual_program = RDK.Item("Show_Rancilio_Rancilio_Tool_Rotated", ITEM_TYPE_PROGRAM)
+    visual_program.RunCode()
+    visual_program.WaitFinished()
 
     T_UR_T_TCP_reverseout = rm.Mat(UR_T_TCP_reverseout.tolist())
     UR5.MoveL(rm.UR_2_Pose(rm.Pose_2_UR(T_UR_T_TCP_reverseout)), blocking=True)
