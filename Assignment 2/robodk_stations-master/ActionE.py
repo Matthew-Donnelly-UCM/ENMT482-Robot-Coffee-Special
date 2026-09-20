@@ -68,7 +68,7 @@ def InitialiseSimulateB():
     robot_program.RunCode()
     robot_program.WaitFinished()
 
-def HomeToMazzerScaleLockLeverRightTop():
+def HomeToMazzerScaleLockLeverRightTop2():
     tls.mazzer_tool_attach_r_ati()
 
     #we need to arrive at the mazzer origin first
@@ -77,55 +77,6 @@ def HomeToMazzerScaleLockLeverRightTop():
     T = Translation_matrix(439.4,-277.9, 41.9)
     URtMS_np = R + T
 
-    R1_1 = Rotational_matrix_z(0)
-    T1_1 = Translation_matrix(20, -59.53, -15)
-    MStMSLLR = R1_1 + T1_1
-
-    theta = 15*np.pi/180
-    R1 = Rotational_matrix_x(theta)
-    T1 = Translation_matrix(0,0,0)
-    MSLLRtMSLLRR = R1 + T1
-
-    heta = (np.pi/180)*-50 
-    R2 = Rotational_matrix_z(theta)
-    T2 = Translation_matrix(0, 0, 0)
-    TCPtMT_np = R2 + T2
-
-    MTtTCP = inverse_transform_z(theta, 0, 0, 0)
-
-    R3 = Rotational_matrix_z(0)
-    T3 = Translation_matrix(0, 0, 102.82)
-    MTtMTCCT_np = R3 + T3
-    MTCCTtMT = inverse_transform_z(0, 0, 0, 102.82)
-
-
-    MTCCTtMS_np = np.array([[1,0,1,0],
-                            [0,-1,0,0],
-                            [0,0,0,0],
-                            [0,0,0,1]])
-
-    R4 = np.array([[1,0,0],
-                    [0,-1,0],
-                    [0,0,-1]])
-
-    MStMTCCT = inverse_transform_matrix(R4, 0, 0, 0)
-
-    midpoint = [-31.687970, -96.574722, -124.232490, -41.939096, 103.471020, -75.459446]
-    UR5.MoveJ(midpoint, blocking=True)
-
-    URtTCP = URtMS_np @ MStMSLLR @ MSLLRtMSLLRR @ MStMTCCT @ MTCCTtMT @ MTtTCP
-    T_URtTCP = rm.Mat(URtTCP.tolist())
-    UR5.MoveJ(T_URtTCP, blocking=True)
-
-def SlideInXDirectionAcrossLock():
-
-    #we need to arrive at the mazzer origin first
-    theta = -60*np.pi/180
-    R = Rotational_matrix_z(theta)
-    T = Translation_matrix(439.4,-277.9, 41.9)
-    URtMS_np = R + T
-
-    #x is the NumberToChangeInLab
     R1_1 = Rotational_matrix_z(0)
     T1_1 = Translation_matrix(40, -59.53, -15)
     MStMSLLR = R1_1 + T1_1
@@ -159,11 +110,14 @@ def SlideInXDirectionAcrossLock():
 
     MStMTCCT = inverse_transform_matrix(R4, 0, 0, 0)
 
+    midpoint = [-40.269152, -102.070235, -113.852073, -48.908772, 104.100501, -84.629458]
+    UR5.MoveJ(midpoint, blocking=True)
+
     URtTCP = URtMS_np @ MStMSLLR @ MSLLRtMSLLRR @ MStMTCCT @ MTCCTtMT @ MTtTCP
     T_URtTCP = rm.Mat(URtTCP.tolist())
     UR5.MoveJ(T_URtTCP, blocking=True)
 
-def SlideInzDirectionAcrossLock():
+def SlideInXDirectionAcrossLock2():
 
     #we need to arrive at the mazzer origin first
     theta = -60*np.pi/180
@@ -171,8 +125,9 @@ def SlideInzDirectionAcrossLock():
     T = Translation_matrix(439.4,-277.9, 41.9)
     URtMS_np = R + T
 
+    #x is the NumberToChangeInLab
     R1_1 = Rotational_matrix_z(0)
-    T1_1 = Translation_matrix(40, -59.53, -25)
+    T1_1 = Translation_matrix(5, -59.53, -15)
     MStMSLLR = R1_1 + T1_1
 
     theta = 15*np.pi/180
@@ -208,7 +163,52 @@ def SlideInzDirectionAcrossLock():
     T_URtTCP = rm.Mat(URtTCP.tolist())
     UR5.MoveJ(T_URtTCP, blocking=True)
 
-    midpoint = [-40.506711, -97.682021, -113.471823, -56.834391, 90.449101, -84.723637]
+def SlideInzDirectionAcrossLock2():
+
+    #we need to arrive at the mazzer origin first
+    theta = -60*np.pi/180
+    R = Rotational_matrix_z(theta)
+    T = Translation_matrix(439.4,-277.9, 41.9)
+    URtMS_np = R + T
+
+    R1_1 = Rotational_matrix_z(0)
+    T1_1 = Translation_matrix(5, -59.53, -25)
+    MStMSLLR = R1_1 + T1_1
+
+    theta = 15*np.pi/180
+    R1 = Rotational_matrix_x(theta)
+    T1 = Translation_matrix(0,0,0)
+    MSLLRtMSLLRR = R1 + T1
+
+    heta = (np.pi/180)*-50 
+    R2 = Rotational_matrix_z(theta)
+    T2 = Translation_matrix(0, 0, 0)
+    TCPtMT_np = R2 + T2
+
+    MTtTCP = inverse_transform_z(theta, 0, 0, 0)
+
+    R3 = Rotational_matrix_z(0)
+    T3 = Translation_matrix(0, 0, 102.82)
+    MTtMTCCT_np = R3 + T3
+    MTCCTtMT = inverse_transform_z(0, 0, 0, 102.82)
+
+
+    MTCCTtMS_np = np.array([[1,0,1,0],
+                            [0,-1,0,0],
+                            [0,0,0,0],
+                            [0,0,0,1]])
+
+    R4 = np.array([[1,0,0],
+                    [0,-1,0],
+                    [0,0,-1]])
+
+    MStMTCCT = inverse_transform_matrix(R4, 0, 0, 0)
+
+    URtTCP = URtMS_np @ MStMSLLR @ MSLLRtMSLLRR @ MStMTCCT @ MTCCTtMT @ MTtTCP
+    T_URtTCP = rm.Mat(URtTCP.tolist())
+    UR5.MoveJ(T_URtTCP, blocking=True)
+
+    midpoint = [-31.614301, -80.955259, -129.316320, -60.303246, 90.148023, -76.126285]
 
     UR5.MoveJ(midpoint, blocking=True)
     #UR5.MoveJ(RDK.Item("Home_R", ITEM_TYPE_TARGET), True)
@@ -218,5 +218,3 @@ def SlideInzDirectionAcrossLock():
 #          [      0,            0,            0,         y ],
 #          [      0,            0,            1,         z ],
 #          [  0.000000,     0.000000,     0.000000,     1.000000 ]])
-
-
