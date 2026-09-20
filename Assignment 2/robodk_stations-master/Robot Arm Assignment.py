@@ -5,7 +5,7 @@ from ActionB import HomeToMazzerScaleLockLeverRightTop, SlideInXDirectionAcrossL
 from ActionC import home_to_mazzer_button, mazzer_button_pressed_on, mazzer_press, mazzer_wait, mazzer_button_turn_off, mazzer_button_turn_off_pressed
 from ActionE import HomeToMazzerScaleLockLeverRightTop2, SlideInXDirectionAcrossLock2, SlideInzDirectionAcrossLock2
 from ActionF import HomeToMazzerPickUp, CollectMazzerTool
-
+from ActionG import
 from ActionL import ActionL
 from ActionO import ActionO
 # from ActionP import ActionP
@@ -96,6 +96,9 @@ if Actions[4] == 1:
     SlideInzDirectionAcrossLock2()
 
 if Actions[5] == 1:
+    visual_program = RDK.Item("Show_Mazzer_Scale_Rancilio_Tool", ITEM_TYPE_PROGRAM)
+    visual_program.RunCode()
+    visual_program.WaitFinished()
     HomeToMazzerPickUp()
     CollectMazzerTool()
 
