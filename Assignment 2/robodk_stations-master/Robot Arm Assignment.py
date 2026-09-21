@@ -5,9 +5,12 @@ from robodk.robolink import *
 from ActionA import InitialiseSimulateA, HomeToMazzerScaleTop, MazzerScaleTopToMazzerScale, MazzerScaleToHome
 from ActionB import HomeToMazzerScaleLockLeverRightTop, SlideInXDirectionAcrossLock, SlideInzDirectionAcrossLock
 from ActionC import home_to_mazzer_button, mazzer_button_pressed_on, mazzer_press, mazzer_wait, mazzer_button_turn_off, mazzer_button_turn_off_pressed
+from ActionE import HomeToMazzerScaleLockLeverRightTop2, SlideInXDirectionAcrossLock2, SlideInzDirectionAcrossLock2
+from ActionF import HomeToMazzerPickUp, CollectMazzerTool
+from ActionG import
 from ActionL import ActionL
 from ActionO import ActionO
-from ActionP import ActionP
+# from ActionP import ActionP
 from ActionQ import ActionQ
 from ActionR import ActionR
 from ActionS import ActionS
@@ -43,7 +46,7 @@ Actions = [
     0,  # C
     0,  # D
     0,  # E
-    0,  # F
+    1,  # F
     0,  # G
     0,  # H
     0,  # I
@@ -56,8 +59,8 @@ Actions = [
     0,  # P
     0,  # Q
     0,  # R
-    1,  # S
-    1,  # T
+    0,  # S
+    0,  # T
     0,  # U
     0,  # V
 ]
@@ -70,9 +73,15 @@ if Actions[0] == 1:
 # tls.rancilio_tool_detach_r_ati()
 if Actions[1] == 1:
     #Action B
+    visual_program = RDK.Item("Show_Mazzer_Scale_Read", ITEM_TYPE_PROGRAM)
+    visual_program.RunCode()
+    visual_program.WaitFinished()
     HomeToMazzerScaleLockLeverRightTop()
     SlideInXDirectionAcrossLock()
     SlideInzDirectionAcrossLock()
+    visual_program = RDK.Item("Show_Mazzer_Scale_Lock", ITEM_TYPE_PROGRAM)
+    visual_program.RunCode()
+    visual_program.WaitFinished()
 if Actions[2] == 1:
     home_to_mazzer_button()
     mazzer_button_pressed_on()
@@ -80,6 +89,21 @@ if Actions[2] == 1:
     mazzer_wait()
     mazzer_button_turn_off()
     mazzer_button_turn_off_pressed()
+
+if Actions[4] == 1:
+    visual_program = RDK.Item("Show_Mazzer_Scale_Lock", ITEM_TYPE_PROGRAM)
+    visual_program.RunCode()
+    visual_program.WaitFinished()
+    HomeToMazzerScaleLockLeverRightTop2()
+    SlideInXDirectionAcrossLock2()
+    SlideInzDirectionAcrossLock2()
+
+if Actions[5] == 1:
+    visual_program = RDK.Item("Show_Mazzer_Scale_Rancilio_Tool", ITEM_TYPE_PROGRAM)
+    visual_program.RunCode()
+    visual_program.WaitFinished()
+    HomeToMazzerPickUp()
+    CollectMazzerTool()
 
 if Actions[11] == 1:
     # Action L
@@ -91,12 +115,12 @@ if Actions[11] == 1:
 
 if Actions[14] == 1:
     # Action O
-    visual_program = RDK.Item("Show_Rancilio_Scale_Cup", ITEM_TYPE_PROGRAM)
-    visual_program.RunCode()
-    visual_program.WaitFinished()
-    visual_program = RDK.Item("Show_Rancilio_Rancilio_Tool_Rotated", ITEM_TYPE_PROGRAM)
-    visual_program.RunCode()
-    visual_program.WaitFinished()
+   # visual_program = RDK.Item("Show_Rancilio_Scale_Cup", ITEM_TYPE_PROGRAM)
+   # visual_program.RunCode()
+   # visual_program.WaitFinished()
+   # visual_program = RDK.Item("Show_Rancilio_Rancilio_Tool_Rotated", ITEM_TYPE_PROGRAM)
+   # visual_program.RunCode()
+    # visual_program.WaitFinished()
     ActionO()
 
 if Actions[15] == 1:
@@ -114,7 +138,7 @@ if Actions[16] == 1:
 
 if Actions[18] == 1:
     # Action S
-    tls.rancilio_tool_attach_r_ati() # only for seperate testing
+   # tls.rancilio_tool_attach_r_ati() # only for seperate testing
     visual_program = RDK.Item("Show_Rancilio_Scale_Cup", ITEM_TYPE_PROGRAM)
     visual_program.RunCode()
     visual_program.WaitFinished()
