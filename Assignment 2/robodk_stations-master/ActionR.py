@@ -75,7 +75,7 @@ def ActionR():
     Use the cup tool to carefully pick up the cup of coffee and place it in the customer zone.
 
     """
-    tls.cup_tool_attach_r_ati()
+    tls.cup_tool_attach_l_ati()
     tls.cup_tool_open_ur5()
 
     # Once the cup tool has been attached, send the Robot to the Rancillo Scale Origin at top cover fastener (left)

@@ -105,7 +105,7 @@ def ActionU():
     
     key60 = [45,	-51.2,	8.2] # Silicone brush coordinates
 
-    compressionvalue = 3
+    compressionvalue = 20
     exitheight = 15
     key60_compressed = [45, -51.2, 8.2 - compressionvalue]
     key60_exitheight = [45, -51.2, 8.2 + exitheight]

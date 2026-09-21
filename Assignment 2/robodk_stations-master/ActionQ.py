@@ -165,7 +165,7 @@ def ActionQ():
 
     # Push down on the Lock Lever (Commented out as may be uneccesary)
 
-    LockLeverDisplacement_z = 10
+    LockLeverDisplacement_z = 22
     key42_down = [key42_slide[0], key42_slide[1], key42_slide[2] - LockLeverDisplacement_z]
     T2_down = Translation_matrix(key42_down[0], key42_down[1], key42_down[2])
     RS_T_RSLockLever_down = R2 + T2_down

@@ -13,7 +13,7 @@ from modbus_scale_client import modbus_scale_client
 
 UR5 = RDK.Item("UR5", ITEM_TYPE_ROBOT)
 
-IP_RANCILIO_3 = "192.168.22.4"
+
 
 def Rotational_matrix_z(theta):
     return np.array([[np.cos(theta), -np.sin(theta), 0,0],
@@ -84,6 +84,19 @@ def ActionP():
 
     """
 
+    # Connect to Scale
+
+    IP_RANCILIO_3 = "192.168.22.4"
+
+    client = modbus_scale_client.ModbusScaleClient(host = IP_RANCILIO_3)
+
+    if client.server_exists() == False:
+        RDK.ShowMessage("No scale detected, output will be simulated.")
+
+    client.tare()
+
+
+
     # Get the Mazzer tool (Only necessary on Action testing runs)
 
     # Once the tool has been attached, send the Robot to the Rancillo Scale Origin at top cover fastener (left)
@@ -108,7 +121,9 @@ def ActionP():
 
     key37 = [46.8, 38.3, -63.2]     # Rancillo Switch Rocker, lowered (Local)
 
-    R2 = Rotational_matrix_y(-3*np.pi/4) # Already in the RS coordinate frame, however rotating for tool head to be pointing into the button
+    theta = -np.pi/2
+    # theta = -3*np.pi/4
+    R2 = Rotational_matrix_y(theta) # Already in the RS coordinate frame, however rotating for tool head to be pointing into the button
     T2 = Translation_matrix(key37[0], key37[1], key37[2])
     RS_T_RHotWaterSwitch = R2 + T2
 
@@ -138,17 +153,18 @@ def ActionP():
     # Now can calculate the Mazzer Tool tip centre point, with respect to the Robots Frame
     UR_T_TCP = UR_T_RHotWaterSwitch @ MTtip_T_MT @ MT_T_TCP
 
-    # # Intermediate 1 is used to avoid hitting the Tool Rack
-    # Intermediate1 = [-80.770000, -84.230000, -103.250000, -71.230000, 90.250000, -133.53]
-    # UR5.MoveJ(Intermediate1, blocking = True)
+    # Intermediate 1 is used to stop ugly pose
+    Intermediate1 = [-104.570000, -75.000000, -123.620000, -55.410000, 88.850000, 252.340000]
+    UR5.MoveJ(Intermediate1, blocking = True)
 
     # Intermediate 2 gets close to the button (ugly pose should probably fix)
-    Intermediate2 = [24.690000, -4.820000, -74.550000, -206.910000, 68.170000, -156.910000]
+    Intermediate2 = [-122.310000, -79.510000, -123.620000, -158.080000, -85.380000, 252.340000]
     UR5.MoveJ(Intermediate2, blocking = True)
 
-    # Convert from numpy and move
-    T_UR_T_TCP = rm.Mat(UR_T_TCP.tolist())
-    UR5.MoveJ(T_UR_T_TCP, blocking=True)
+
+    # # Convert from numpy and move
+    # T_UR_T_TCP = rm.Mat(UR_T_TCP.tolist())
+    # UR5.MoveJ(T_UR_T_TCP, blocking=True)
 
     # Slide the button in the Z to turn on the hot water
 
@@ -168,16 +184,6 @@ def ActionP():
     target = 32
     tolerance = 0.1
 
-    client = modbus_scale_client.ModbusScaleClient(host = IP_RANCILIO_3)
-
-    if client.server_exists() == False:
-        RDK.ShowMessage("No scale detected, output will be simulated.")
-
-    ## Scale output (grams).
-    value = client.read()
-
-    RDK.ShowMessage("Value = %f" % value)
-
     while (1):
         
         value = client.read() # Scale Output in grams
@@ -185,11 +191,12 @@ def ActionP():
         if ((value) > (target - tolerance)):
             break
 
-        RDK.ShowMessage("Value = %f" % value)
+        # RDK.ShowMessage("Value = %f" % value)
+        time.sleep(0.2)
 
     # Slide the button in the Y to turn off the hot water
 
-    LockLeverDisplacement_z = 10
+    LockLeverDisplacement_z = 15
     key37_down = [key37[0], key37[1], key37[2] - LockLeverDisplacement_z]
     T2_down = Translation_matrix(key37_down[0], key37_down[1], key37_down[2])
     RS_T_RHotWaterSwitch_down = R2 + T2_down

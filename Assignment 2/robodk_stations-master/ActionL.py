@@ -106,7 +106,7 @@ def ActionL():
     T2_below = Translation_matrix(key38_withdepth[0], key38_withdepth[1], key38_withdepth[2])
 
     R2 = Rotational_matrix_y(theta) # Adjusting the tool rotation
-    T2 = Translation_matrix(key38_withdepth[0], key38_withdepth[1], key38_withdepth[2])
+    T2 = Translation_matrix(key38[0], key38[1], key38[2])
 
     R_T_Rgrouphead= R2 + T2
     R_T_Rbelowgrouphead= R2_below + T2_below
@@ -151,11 +151,11 @@ def ActionL():
         R4_locked[0:3, 0:3], key55[0], key55[1], key55[2]
     )
 
-    theta = np.pi/8
-    R4_mid = Rotational_matrix_x(theta)
-    RTbasketrim_T_RT_mid = inverse_transform_matrix(
-        R4_mid[0:3, 0:3], key55[0], key55[1], key55[2]
-    )
+    # theta = np.pi/8
+    # R4_mid = Rotational_matrix_x(theta)
+    # RTbasketrim_T_RT_mid = inverse_transform_matrix(
+    #     R4_mid[0:3, 0:3], key55[0], key55[1], key55[2]
+    # )
 
     pulloutlength = 100
     key55_reversing = [28.7, 0,	146.3 + pulloutlength] # VST_Basket rim (centre)
@@ -177,7 +177,7 @@ def ActionL():
 
     UR_T_TCP_unlocked = UR_T_RGroupHead @ RTbasketrim_T_RT_unlocked @ RT_T_TCP # Unlocked position at the Group Head
 
-    UR_T_TCP = UR_T_RGroupHead @ RTbasketrim_T_RT_mid @ RT_T_TCP
+    # UR_T_TCP = UR_T_RGroupHead @ RTbasketrim_T_RT_mid @ RT_T_TCP
 
     UR_T_TCP_locked = UR_T_RGroupHead @ RTbasketrim_T_RT_locked @ RT_T_TCP # Locked position at the group head
 
@@ -197,13 +197,30 @@ def ActionL():
 
     time.sleep(2)
 
-    T_UR_T_TCP = rm.Mat(UR_T_TCP.tolist())
-    T_UR_T_TCP_locked = rm.Mat(UR_T_TCP_locked.tolist())
-    UR5.MoveC(
-        rm.UR_2_Pose(rm.Pose_2_UR(T_UR_T_TCP)),
-        rm.UR_2_Pose(rm.Pose_2_UR(T_UR_T_TCP_locked)),
-        blocking=True,
-    )
+    # Original midpoint-to-locked motion:
+    # T_UR_T_TCP = rm.Mat(UR_T_TCP.tolist())
+    # T_UR_T_TCP_locked = rm.Mat(UR_T_TCP_locked.tolist())
+    # UR5.MoveJ(rm.UR_2_Pose(rm.Pose_2_UR(T_UR_T_TCP)), blocking=True)
+    # UR5.MoveJ(rm.UR_2_Pose(rm.Pose_2_UR(T_UR_T_TCP_locked)), blocking=True)
+    # UR5.MoveC(
+    #     rm.UR_2_Pose(rm.Pose_2_UR(T_UR_T_TCP)),
+    #     rm.UR_2_Pose(rm.Pose_2_UR(T_UR_T_TCP_locked)),
+    #     blocking=True,
+    # )
+
+    # Move from unlocked to locked in one-degree increments.
+    for theta_degrees in range(45, -1, -1):
+        theta = np.deg2rad(theta_degrees)
+        R4_step = Rotational_matrix_x(theta)
+        RTbasketrim_T_RT_step = inverse_transform_matrix(
+            R4_step[0:3, 0:3], key55[0], key55[1], key55[2]
+        )
+        UR_T_TCP_step = UR_T_RGroupHead @ RTbasketrim_T_RT_step @ RT_T_TCP
+        T_UR_T_TCP_step = rm.Mat(UR_T_TCP_step.tolist())
+        UR5.MoveJ(
+            rm.UR_2_Pose(rm.Pose_2_UR(T_UR_T_TCP_step)),
+            blocking=True,
+        )
 
     tls.student_tool_detach()
     visual_program = RDK.Item("Show_Rancilio_Rancilio_Tool_Rotated", ITEM_TYPE_PROGRAM)
@@ -212,6 +229,7 @@ def ActionL():
 
     T_UR_T_TCP_reverseout = rm.Mat(UR_T_TCP_reverseout.tolist())
     UR5.MoveL(rm.UR_2_Pose(rm.Pose_2_UR(T_UR_T_TCP_reverseout)), blocking=True)
+
 
 
 # ActionL()

@@ -106,12 +106,12 @@ def ActionT():
     
     key60 = [-45,	-51.2,	8.2] # Silicone brush coordinates
 
-    compressionvalue = 3
+    compressionvalue = 20
     exitheight = 15
     key60_compressed = [-45, -51.2, 8.2 - compressionvalue]
     key60_exitheight = [-45, -51.2, 8.2 + exitheight]
 
-    theta = np.pi/2
+    theta = np.pi/2 # Make facing down
     R2 = Rotational_matrix_y(theta) # Adjusting the tool rotation
     T2 = Translation_matrix(key60[0], key60[1], key60[2])
 
@@ -161,8 +161,23 @@ def ActionT():
 
     UR_T_TCP_exitheight = UR_T_Rsiliconebrush_exitheight @ RTbasketrim_T_RT @ RT_T_TCP
 
-    intermediate1 = [41.820000, -116.130000, 123.870000, -178.060000, -54.190000, -219.940000]
+    intermediate0 = [-104.040000, -77.510000, -129.190000, -151.150000, -47.310000, -221.430000]
+    UR5.MoveJ(intermediate0, blocking=True)
+
+    intermediatefuckknows = [-103.340000, -77.310000, -147.540000,     -131.580000, -69.230000, -216.920000]
+    UR5.MoveJ(intermediatefuckknows, blocking=True)
+
+
+
+    intermediate1 = [-103.340000, -75.000000, -147.690000, -131.540000, -101.540000, -216.920000]
     UR5.MoveJ(intermediate1, blocking=True)
+
+    intermediate2 = [-103.850000, -93.460000, -117.690000, -144.230000, -101.540000, -216.920000]
+    UR5.MoveL(intermediate2, blocking=True)
+
+    intermediate3 = [-103.850000, -93.460000, -117.690000, -144.230000, -101.540000, -32.310000]
+    UR5.MoveJ(intermediate3, blocking=True)
+
 
     T_UR_T_TCP = rm.Mat(UR_T_TCP.tolist())
     UR5.MoveJ(rm.UR_2_Pose(rm.Pose_2_UR(T_UR_T_TCP)), blocking=True)
@@ -181,4 +196,4 @@ def ActionT():
 
 
 
-# ActionT()
+# # ActionT()

@@ -196,14 +196,28 @@ def ActionS():
 
     time.sleep(2)
 
-    # Rotate to unlock the Rancillo tool
-    T_UR_T_TCP = rm.Mat(UR_T_TCP.tolist())
-    T_UR_T_TCP_unlocked = rm.Mat(UR_T_TCP_unlocked.tolist())
-    UR5.MoveC(
-        rm.UR_2_Pose(rm.Pose_2_UR(T_UR_T_TCP)),
-        rm.UR_2_Pose(rm.Pose_2_UR(T_UR_T_TCP_unlocked)),
-        blocking=True,
-    )
+    # # Rotate to unlock the Rancillo tool
+    # T_UR_T_TCP = rm.Mat(UR_T_TCP.tolist())
+    # T_UR_T_TCP_unlocked = rm.Mat(UR_T_TCP_unlocked.tolist())
+    # UR5.MoveC(
+    #     rm.UR_2_Pose(rm.Pose_2_UR(T_UR_T_TCP)),
+    #     rm.UR_2_Pose(rm.Pose_2_UR(T_UR_T_TCP_unlocked)),
+    #     blocking=True,
+    # )
+
+        # Move from locked to unlocked in one-degree increments.
+    for theta_degrees in range(0, 46, 1):
+        theta = np.deg2rad(theta_degrees)
+        R4_step = Rotational_matrix_x(theta)
+        RTbasketrim_T_RT_step = inverse_transform_matrix(
+            R4_step[0:3, 0:3], key55[0], key55[1], key55[2]
+        )
+        UR_T_TCP_step = UR_T_RGroupHead @ RTbasketrim_T_RT_step @ RT_T_TCP
+        T_UR_T_TCP_step = rm.Mat(UR_T_TCP_step.tolist())
+        UR5.MoveJ(
+            rm.UR_2_Pose(rm.Pose_2_UR(T_UR_T_TCP_step)),
+            blocking=True,
+        )
 
     visual_program = RDK.Item("Hide_Rancilio_Rancilio_Tool_Rotated", ITEM_TYPE_PROGRAM)
     visual_program.RunCode()

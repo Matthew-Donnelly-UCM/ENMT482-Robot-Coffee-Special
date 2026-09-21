@@ -1,5 +1,7 @@
 from time import sleep
 from robodk.robolink import *
+# import robodk_scales
+# from modbus_scale_client import modbus_scale_client
 from ActionA import InitialiseSimulateA, HomeToMazzerScaleTop, MazzerScaleTopToMazzerScale, MazzerScaleToHome
 from ActionB import HomeToMazzerScaleLockLeverRightTop, SlideInXDirectionAcrossLock, SlideInzDirectionAcrossLock
 from ActionC import home_to_mazzer_button, mazzer_button_pressed_on, mazzer_press, mazzer_wait, mazzer_button_turn_off, mazzer_button_turn_off_pressed
@@ -17,6 +19,7 @@ import numpy as np
 RDK = Robolink()
 tls = tools.Tools(RDK)
 UR5 = RDK.Item("UR5", ITEM_TYPE_ROBOT)
+
 
 #   After creating a `Robolink()` object, items within the RoboDK station tree
 #   are able to be retrieved by name, item type, or both.
@@ -55,7 +58,7 @@ Actions = [
     0,  # R
     1,  # S
     1,  # T
-    1,  # U
+    0,  # U
     0,  # V
 ]
 
@@ -103,10 +106,10 @@ if Actions[15] == 1:
 
 if Actions[16] == 1:
     # Action Q
-    # visual_program = RDK.Item("Show_Rancilio_Scale_Read", ITEM_TYPE_PROGRAM)
-    # visual_program.RunCode()
-    # visual_program.WaitFinished()
-    # tls.mazzer_tool_attach_r_ati() # Only for seperate testing
+    visual_program = RDK.Item("Show_Rancilio_Scale_Read", ITEM_TYPE_PROGRAM)
+    visual_program.RunCode()
+    visual_program.WaitFinished()
+    tls.mazzer_tool_attach_r_ati() # Only for seperate testing
     ActionQ()
 
 if Actions[18] == 1:
