@@ -169,7 +169,8 @@ def ActionP():
     # Slide the button in the Z to turn on the hot water
 
     LockLeverDisplacement_z = 10
-    key37_up = [key37[0], key37[1], key37[2] + LockLeverDisplacement_z]
+    LockLeverDisplacement_x = 2
+    key37_up = [key37[0] - LockLeverDisplacement_x, key37[1], key37[2] + LockLeverDisplacement_z]
     T2_up = Translation_matrix(key37_up[0], key37_up[1], key37_up[2])
     RS_T_RHotWaterSwitch_up = R2 + T2_up
     UR_T_RHotWaterSwitch_up = UR_T_RS @ RS_T_RHotWaterSwitch_up
@@ -197,7 +198,8 @@ def ActionP():
     # Slide the button in the Y to turn off the hot water
 
     LockLeverDisplacement_z = 15
-    key37_down = [key37[0], key37[1], key37[2] - LockLeverDisplacement_z]
+    LockLeverDisplacement_x = 2
+    key37_down = [key37[0] - LockLeverDisplacement_x, key37[1], key37[2] - LockLeverDisplacement_z]
     T2_down = Translation_matrix(key37_down[0], key37_down[1], key37_down[2])
     RS_T_RHotWaterSwitch_down = R2 + T2_down
     UR_T_RHotWaterSwitch_down = UR_T_RS @ RS_T_RHotWaterSwitch_down
@@ -205,6 +207,20 @@ def ActionP():
 
     T_UR_T_TCP_down = rm.Mat(UR_T_TCP_down.tolist())
     UR5.MoveJ(T_UR_T_TCP_down, blocking=True)
+
+ # Get away from button without hitting anything
+
+    LockLeverDisplacement_z = 15
+    LockLeverDisplacement_x = 150
+    key37_out = [key37[0] + LockLeverDisplacement_x, key37[1], key37[2] - LockLeverDisplacement_z]
+    T2_out = Translation_matrix(key37_out[0], key37_out[1], key37_out[2])
+    RS_T_RHotWaterSwitch_out = R2 + T2_out
+    UR_T_RHotWaterSwitch_out = UR_T_RS @ RS_T_RHotWaterSwitch_out
+    UR_T_TCP_out = UR_T_RHotWaterSwitch_out @ MTtip_T_MT @ MT_T_TCP
+
+    T_UR_T_TCP_out = rm.Mat(UR_T_TCP_out.tolist())
+    UR5.MoveL(T_UR_T_TCP_out, blocking=True)
+
 
     
 

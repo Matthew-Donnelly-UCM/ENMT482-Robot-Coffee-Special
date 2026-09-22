@@ -7,10 +7,10 @@ from ActionB import HomeToMazzerScaleLockLeverRightTop, SlideInXDirectionAcrossL
 from ActionC import home_to_mazzer_button, mazzer_button_pressed_on, mazzer_press, mazzer_wait, mazzer_button_turn_off, mazzer_button_turn_off_pressed
 from ActionE import HomeToMazzerScaleLockLeverRightTop2, SlideInXDirectionAcrossLock2, SlideInzDirectionAcrossLock2
 from ActionF import HomeToMazzerPickUp, CollectMazzerTool
-from ActionG import
+# from ActionG import
 from ActionL import ActionL
 from ActionO import ActionO
-# from ActionP import ActionP
+from ActionP import ActionP
 from ActionQ import ActionQ
 from ActionR import ActionR
 from ActionS import ActionS
@@ -46,7 +46,7 @@ Actions = [
     0,  # C
     0,  # D
     0,  # E
-    1,  # F
+    0,  # F
     0,  # G
     0,  # H
     0,  # I
@@ -58,7 +58,7 @@ Actions = [
     0,  # O
     0,  # P
     0,  # Q
-    0,  # R
+    1,  # R
     0,  # S
     0,  # T
     0,  # U
@@ -110,17 +110,17 @@ if Actions[11] == 1:
     visual_program = RDK.Item("Show_Rancilio_Scale_Cup", ITEM_TYPE_PROGRAM)
     visual_program.RunCode()
     visual_program.WaitFinished()
-    tls.rancilio_tool_attach_r_ati() # only for seperate testing
+    tls.rancilio_tool_attach_r_ati() # only for  on machine testing
     ActionL()
 
 if Actions[14] == 1:
     # Action O
-   # visual_program = RDK.Item("Show_Rancilio_Scale_Cup", ITEM_TYPE_PROGRAM)
-   # visual_program.RunCode()
-   # visual_program.WaitFinished()
-   # visual_program = RDK.Item("Show_Rancilio_Rancilio_Tool_Rotated", ITEM_TYPE_PROGRAM)
-   # visual_program.RunCode()
-    # visual_program.WaitFinished()
+    visual_program = RDK.Item("Show_Rancilio_Scale_Cup", ITEM_TYPE_PROGRAM)
+    visual_program.RunCode()
+    visual_program.WaitFinished()
+    visual_program = RDK.Item("Show_Rancilio_Rancilio_Tool_Rotated", ITEM_TYPE_PROGRAM)
+    visual_program.RunCode()
+    visual_program.WaitFinished()
     ActionO()
 
 if Actions[15] == 1:
@@ -133,7 +133,7 @@ if Actions[16] == 1:
     visual_program = RDK.Item("Show_Rancilio_Scale_Read", ITEM_TYPE_PROGRAM)
     visual_program.RunCode()
     visual_program.WaitFinished()
-    tls.mazzer_tool_attach_r_ati() # Only for seperate testing
+    # tls.mazzer_tool_attach_r_ati() # Only for seperate testing
     ActionQ()
 
 if Actions[18] == 1:
@@ -143,20 +143,21 @@ if Actions[18] == 1:
     visual_program.RunCode()
     visual_program.WaitFinished()
     ActionS()
+
 if Actions[19] == 1:
     # Action T
-
     # tls.rancilio_tool_attach_r_ati() # only for seperate testing
     ActionT()
+
 if Actions[20] == 1:
     # Action U
     ActionU()
 
 if Actions[17] == 1:
     # Action R
-    # visual_program = RDK.Item("Show_Rancilio_Scale_Cup", ITEM_TYPE_PROGRAM)
-    # visual_program.RunCode()
-    # visual_program.WaitFinished()
+    visual_program = RDK.Item("Show_Rancilio_Scale_Cup", ITEM_TYPE_PROGRAM)
+    visual_program.RunCode()
+    visual_program.WaitFinished()
     # visual_program = RDK.Item("Show_Rancilio_Rancilio_Tool_Rotated", ITEM_TYPE_PROGRAM)
     # visual_program.RunCode()
     # visual_program.WaitFinished()

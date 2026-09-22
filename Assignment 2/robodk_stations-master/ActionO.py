@@ -128,7 +128,7 @@ def ActionO():
     key51 = [0, 0, 102.82]  # Mazzer tool offset
 
     theta = -np.pi/2  # Mazzer tool is RS frame rotated 90 degrees
-    theta2 = np.deg2rad(-45)
+    theta2 = np.deg2rad(-30)
     R4 = Rotational_matrix_z(theta) @ Rotational_matrix_x(theta2)
 
     T4 = Translation_matrix(key51[0], key51[1], key51[2])
@@ -155,7 +155,7 @@ def ActionO():
 
     # Slide the lock lever in x to activate it
 
-    LockLeverDisplacement_x = 35
+    LockLeverDisplacement_x = 25
     key42_slide = [key42[0] - LockLeverDisplacement_x, key42[1], key42[2]]
     T2_slide = Translation_matrix(key42_slide[0], key42_slide[1], key42_slide[2])
     RS_T_RSLockLever_slide = R2 + T2_slide

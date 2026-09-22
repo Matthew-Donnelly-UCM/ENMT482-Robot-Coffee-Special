@@ -106,7 +106,7 @@ def ActionT():
     
     key60 = [-45,	-51.2,	8.2] # Silicone brush coordinates
 
-    compressionvalue = 20
+    compressionvalue = 25
     exitheight = 15
     key60_compressed = [-45, -51.2, 8.2 - compressionvalue]
     key60_exitheight = [-45, -51.2, 8.2 + exitheight]
@@ -166,8 +166,6 @@ def ActionT():
 
     intermediatefuckknows = [-103.340000, -77.310000, -147.540000,     -131.580000, -69.230000, -216.920000]
     UR5.MoveJ(intermediatefuckknows, blocking=True)
-
-
 
     intermediate1 = [-103.340000, -75.000000, -147.690000, -131.540000, -101.540000, -216.920000]
     UR5.MoveJ(intermediate1, blocking=True)

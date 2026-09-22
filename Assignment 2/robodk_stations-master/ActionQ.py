@@ -139,8 +139,8 @@ def ActionQ():
     # Now can calculate the Mazzer Tool tip centre point, with respect to the Robots Frame
     UR_T_TCP = UR_T_RSLockLever @ MTtip_T_MT @ MT_T_TCP
 
-    # Intermediate 1 is used to avoid hitting the Tool Rack
-    Intermediate1 = [-80.770000, -84.230000, -103.250000, -71.230000, 90.250000, 133.53]
+    # Intermediate 1 is used to avoid hitting the Rancillo Scale
+    Intermediate1 = [-84.230000, -95.960000, -127.750000, -77.370000, -1.640000, 98.790000]
     UR5.MoveJ(Intermediate1, blocking = True)
 
     # Intermediate 2 gets close to the lever
@@ -165,7 +165,7 @@ def ActionQ():
 
     # Push down on the Lock Lever (Commented out as may be uneccesary)
 
-    LockLeverDisplacement_z = 22
+    LockLeverDisplacement_z = 20
     key42_down = [key42_slide[0], key42_slide[1], key42_slide[2] - LockLeverDisplacement_z]
     T2_down = Translation_matrix(key42_down[0], key42_down[1], key42_down[2])
     RS_T_RSLockLever_down = R2 + T2_down

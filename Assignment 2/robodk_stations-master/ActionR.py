@@ -102,6 +102,7 @@ def ActionR():
     # Adjust for cup height
 
     cup_height = 45
+    # cup_height = 0
     key41_cupcentre = [157.52, -19, 24.24 + cup_height]
 
     theta = np.pi/2
@@ -127,22 +128,35 @@ def ActionR():
     CT_T_TCP = inverse_transform_z(theta, key50[0], key50[1], key50[2])
 
 
-    key48 = [-104.5, 0, 186.62]  # Cup tool top face centre (open)
+    out = 50 # used to ensure approaches cup with an angle
+    fiddlefactor = 2 # used to ensure cup is in centre of tool
+
+    key48 = [-104.5, fiddlefactor, 186.62]  # Cup tool top face centre (open)
+    key48_out = [-104.5, fiddlefactor, 186.62 + out]  # Cup tool top face centre (open)
     theta = -np.pi
     R4 = Rotational_matrix_x(theta)
     T4 = Translation_matrix(key48[0], key48[1], key48[2])
+    T4_out = Translation_matrix(key48[0], key48[1], key48[2])
+
     CT_T_CTtopfacecentre = R4 + T4
+    CT_CTtopfacecentre_out = R4 + T4_out
+
     CTtopfacecentre_T_CT = inverse_transform_z(theta, key48[0], key48[1], key48[2])
+    CTtopfacecentre_T_CT_out = inverse_transform_z(theta, key48_out[0], key48_out[1], key48_out[2])
 
     # Now can calculate the Cup Tool centre point, with respect to the Robots Frame
     UR_T_TCP = UR_T_RSCentrePoint  @ CTtopfacecentre_T_CT @ CT_T_TCP
+    UR_T_TCP_out = UR_T_RSCentrePoint @ CTtopfacecentre_T_CT_out @ CT_T_TCP
 
     # Intermediate 1 is used to ensure approaches cup from good angle
     Intermediate1 = [-12.690000, -128.230000, 148.850000, -30.080000, 26.540000, -219.270000]
     UR5.MoveJ(Intermediate1, blocking = True)
 
+    T_UR_T_TCP_out = rm.Mat(UR_T_TCP_out.tolist())
+    UR5.MoveJ(rm.UR_2_Pose(rm.Pose_2_UR(T_UR_T_TCP_out)), blocking=True)
+
     T_UR_T_TCP = rm.Mat(UR_T_TCP.tolist())
-    UR5.MoveJ(rm.UR_2_Pose(rm.Pose_2_UR(T_UR_T_TCP)), blocking=True)
+    UR5.MoveL(rm.UR_2_Pose(rm.Pose_2_UR(T_UR_T_TCP)), blocking=True)
 
     tls.cup_tool_shut_ur5()
 
