@@ -8,14 +8,14 @@ from ActionC import home_to_mazzer_button, mazzer_button_pressed_on, mazzer_pres
 from ActionE import HomeToMazzerScaleLockLeverRightTop2, SlideInXDirectionAcrossLock2, SlideInzDirectionAcrossLock2
 from ActionF import HomeToMazzerPickUp, CollectMazzerTool
 from ActionG import MazzerPickUpToWDTTop, WDTTToWDT, WDTtoHome
-#from ActionL import ActionL
-#from ActionO import ActionO
-#from ActionP import ActionP
-#from ActionQ import ActionQ
-#from ActionR import ActionR
-#from ActionS import ActionS
-#from ActionT import ActionT
-#from ActionU import ActionU
+from ActionL import ActionL
+from ActionO import ActionO
+from ActionP import ActionP
+from ActionQ import ActionQ
+from ActionR import ActionR
+from ActionS import ActionS
+from ActionT import ActionT
+from ActionU import ActionU
 import tools
 import numpy as np
 
@@ -47,7 +47,7 @@ Actions = [
     0,  # D
     0,  # E
     0,  # F
-    1,  # G
+    0,  # G
     0,  # H
     0,  # I
     0,  # J
@@ -58,7 +58,7 @@ Actions = [
     0,  # O
     0,  # P
     0,  # Q
-    0,  # R
+    1,  # R
     0,  # S
     0,  # T
     0,  # U

@@ -135,7 +135,7 @@ def MazzerPickUpToWDTTop(z):
         
     # convert numpy array into an RDK matrix
         
-    initial_orientation = [5.431775, -73.347659, -163.130445, -124.152647, -83.848373, 141.117824]
+    initial_orientation = [7.776689, -76.124333, -154.780123, -123.629447, -81.857075, 139.638040]
     UR5.MoveJ(initial_orientation, blocking=True)
         
     UR5.MoveJ(UR_2_Pose(Pose_2_UR(T_URtTCP)), blocking=True)    # Run your rm.Mat through a conversion and back and it works...

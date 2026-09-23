@@ -101,7 +101,7 @@ def ActionR():
 
     # Adjust for cup height
 
-    cup_height = 45
+    cup_height = 25
     # cup_height = 0
     key41_cupcentre = [157.52, -19, 24.24 + cup_height]
 
@@ -129,7 +129,7 @@ def ActionR():
 
 
     out = 50 # used to ensure approaches cup with an angle
-    fiddlefactor = 2 # used to ensure cup is in centre of tool
+    fiddlefactor = 0 # used to ensure cup is in centre of tool
 
     key48 = [-104.5, fiddlefactor, 186.62]  # Cup tool top face centre (open)
     key48_out = [-104.5, fiddlefactor, 186.62 + out]  # Cup tool top face centre (open)
