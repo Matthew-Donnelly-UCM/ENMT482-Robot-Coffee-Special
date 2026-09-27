@@ -5,6 +5,7 @@ from robodk.robolink import *
 from ActionA import InitialiseSimulateA, HomeToMazzerScaleTop, MazzerScaleTopToMazzerScale, MazzerScaleToHome
 from ActionB import HomeToMazzerScaleLockLeverRightTop, SlideInXDirectionAcrossLock, SlideInzDirectionAcrossLock
 from ActionC import home_to_mazzer_button, mazzer_button_pressed_on, mazzer_press, mazzer_wait, mazzer_button_turn_off, mazzer_button_turn_off_pressed
+from ActionD import mazzer_pull_lever_0_degree, mazzer_pull_lever_degree, circular_test
 from ActionE import HomeToMazzerScaleLockLeverRightTop2, SlideInXDirectionAcrossLock2, SlideInzDirectionAcrossLock2
 from ActionF import HomeToMazzerPickUp, CollectMazzerTool
 from ActionG import MazzerPickUpToWDTTop, WDTTToWDT, WDTtoHome
@@ -44,7 +45,7 @@ Actions = [
     0,  # A
     0,  # B
     0,  # C
-    0,  # D
+    1,  # D
     0,  # E
     0,  # F
     0,  # G
@@ -58,7 +59,7 @@ Actions = [
     0,  # O
     0,  # P
     0,  # Q
-    1,  # R
+    0,  # R
     0,  # S
     0,  # T
     0,  # U
@@ -89,6 +90,15 @@ if Actions[2] == 1:
     mazzer_wait()
     mazzer_button_turn_off()
     mazzer_button_turn_off_pressed()
+
+if Actions[3] == 1:
+    zero_deg = mazzer_pull_lever_0_degree()
+    mazzer_pull_lever_degree(-5,10,5) # 5
+    mazzer_pull_lever_degree(-10,25,10) # 10
+    mazzer_pull_lever_degree(-10,35,15) # 15
+    mazzer_pull_lever_degree(-15,45,20) # 20
+    mazzer_pull_lever_degree(-27.5,65,25) # 25
+    mazzer_pull_lever_degree(-35,75,30) # 30
 
 if Actions[4] == 1:
     visual_program = RDK.Item("Show_Mazzer_Scale_Lock", ITEM_TYPE_PROGRAM)
