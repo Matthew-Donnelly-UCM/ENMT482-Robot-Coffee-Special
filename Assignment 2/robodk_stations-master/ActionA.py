@@ -58,7 +58,6 @@ def InitialiseSimulateA():
     robot_program.WaitFinished()
 
 def HomeToMazzerScaleTop():
-    tls.rancilio_tool_attach_r_ati()
     theta = -60*np.pi/180
     R = Rotational_matrix_z(theta)
     T = Translation_matrix(439.4,-277.9, 41.9)
@@ -214,7 +213,6 @@ def MazzerScaleToHome():
     #after detachment move to this point to reduce chance of collision
     detach_point = [-9.880000, -103.840000, -130.680000, -125.740000, 1.410000, 136.940000]
     UR5.MoveJ(detach_point, True)
-    UR5.MoveJ(RDK.Item("Home_R", ITEM_TYPE_TARGET), True)
 # example 4x4 matrix 
 #np.array([[      0,        0,                0,         x ],
 #          [      0,            0,            0,         y ],

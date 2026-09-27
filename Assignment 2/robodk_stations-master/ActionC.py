@@ -96,7 +96,6 @@ def InitialiseSimulateA():
     robot_program.WaitFinished()
 
 def home_to_mazzer_button():
-    tls.mazzer_tool_attach_r_ati()
 
     # calculated by doing the cross product of x and y vectors and finding rotation manually
     R = np.array([[-0.874, 0.203, -0.441],
@@ -458,7 +457,6 @@ def mazzer_button_turn_off_pressed():
     last_point = [-54.053837, -108.975276, -98.878399, -229.293149, 278.261720, -228.959691]
     time.sleep(1)
     UR5.MoveJ(last_point, blocking=True)
-    UR5.MoveJ(RDK.Item("Home_R", ITEM_TYPE_TARGET), True)
 # example 4x4 matrix 
 #np.array([[      0,        0,                0,         x ],
 #          [      0,            0,            0,         y ],

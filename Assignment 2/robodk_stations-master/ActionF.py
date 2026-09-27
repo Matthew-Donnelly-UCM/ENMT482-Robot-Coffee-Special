@@ -111,6 +111,10 @@ def CollectMazzerTool():
     T1 = Translation_matrix(-12.1,-19, 14.5)
     MStMSBB_np = R1 + T1
 
+    R1_1 = Rotational_matrix_z(0)
+    T1_1 = Translation_matrix(-20,0,0)
+    MSBBtMSBBT = R1_1 + T1_1
+
     R2 = Rotational_matrix_z(0)
     T2 = Translation_matrix(-32,0, 28.07)
     RTtRTBB_np = R2 + T2
@@ -139,6 +143,8 @@ def CollectMazzerTool():
 
     URtTCP = URtMS_np @  MStMSBB_np @ RTBBtMSBB_inv_np  @ RTtRTBB_inv_np @ TCPtRT_inv_np
 
+
+
     T_URtTCP = rm.Mat(URtTCP.tolist())
 
     # convert numpy array into an RDK matrix
@@ -146,8 +152,61 @@ def CollectMazzerTool():
 
     UR5.MoveL(T_URtTCP, blocking=True)
 
-    
+
     tls.student_tool_attach()
+
+def TopOfMazzerTool():
+    
+    #theta = -2.0934094900519744 #theta calculated
+    theta = -60*np.pi/180
+    R = Rotational_matrix_z(theta)
+    T = Translation_matrix(439.4,-277.9, 41.9)
+    URtMS_np = R + T
+
+    R1 = Rotational_matrix_z(0)
+    T1 = Translation_matrix(-12.1,-19, 14.5)
+    MStMSBB_np = R1 + T1
+
+    R1_1 = Rotational_matrix_z(0)
+    T1_1 = Translation_matrix(0,0,25)
+    MSBBtMSBBT = R1_1 + T1_1
+
+    R2 = Rotational_matrix_z(0)
+    T2 = Translation_matrix(-32,0, 28.07)
+    RTtRTBB_np = R2 + T2
+
+    #inverse matrix
+    R2_inv = Rotational_matrix_z_inverse_z(0)
+    T2_inv = Translation_matrix_inverse(-32,0, 28.07)
+    RTtRTBB_inv_np = Inverse_transform(R2_inv, T2_inv)
+    
+    R3 = Rotational_matrix_z((np.pi/180)*-50)
+    T3 = Translation_matrix(0, 0, 0)
+    TCPtRT_np = R3 + T3
+    
+    #inverse matrix
+    R3_inv = Rotational_matrix_z_inverse_z((np.pi/180)*-50)
+    T3_inv = Translation_matrix_inverse(0,0,0)
+    TCPtRT_inv_np = Inverse_transform(R3_inv,T3_inv)
+
+    RTBBtMSBB_np = np.array([[0,0,1,0],
+                          [0,-1,0,0],
+                          [1,0,0,0],
+                          [0,0,0,1]])
+
+   #inverse matrix simple
+    RTBBtMSBB_inv_np = RTBBtMSBB_np
+
+    URtTCP = URtMS_np @  MStMSBB_np @ MSBBtMSBBT @ RTBBtMSBB_inv_np  @ RTtRTBB_inv_np @ TCPtRT_inv_np
+
+
+
+    T_URtTCP = rm.Mat(URtTCP.tolist())
+
+    # convert numpy array into an RDK matrix
+
+
+    UR5.MoveL(T_URtTCP, blocking=True)
 # example 4x4 matrix 
 #np.array([[      0,        0,                0,         x ],
 #          [      0,            0,            0,         y ],

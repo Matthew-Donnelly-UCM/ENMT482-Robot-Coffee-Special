@@ -55,21 +55,8 @@ def inverse_transform_matrix(R, x, y, z):
     return Trans_inv
 
 # Now for the actual functions
-def InitialiseSimulateB():
-    #   After creating a `Robolink()` object, items within the RoboDK station tree
-    #   are able to be retrieved by name, item type, or both.
-    # Work in simulation mode
-    RDK.setRunMode(RUNMODE_SIMULATE)
-    UR5 = RDK.Item("UR5", ITEM_TYPE_ROBOT)
-
-
-    #Resets Simulation ready to be used
-    robot_program = RDK.Item("Reset_Simulation_R", ITEM_TYPE_PROGRAM)
-    robot_program.RunCode()
-    robot_program.WaitFinished()
 
 def HomeToMazzerScaleLockLeverRightTop():
-    tls.mazzer_tool_attach_r_ati()
 
     #we need to arrive at the mazzer origin first
     theta = -60*np.pi/180
@@ -211,7 +198,6 @@ def SlideInzDirectionAcrossLock():
     midpoint = [-40.506711, -97.682021, -113.471823, -56.834391, 90.449101, -84.723637]
 
     UR5.MoveJ(midpoint, blocking=True)
-    #UR5.MoveJ(RDK.Item("Home_R", ITEM_TYPE_TARGET), True)
 
 # example 4x4 matrix 
 #np.array([[      0,        0,                0,         x ],

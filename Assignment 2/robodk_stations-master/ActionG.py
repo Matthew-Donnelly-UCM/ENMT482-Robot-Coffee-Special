@@ -71,7 +71,6 @@ def inverse_transform_matrix(R, x, y, z):
 
 # Now for the actual functions
 def MazzerPickUpToWDTTop(z):
-    tls.rancilio_tool_attach_r_ati()
 
     theta = 180*np.pi/180
     R = Rotational_matrix_z(theta)
@@ -201,10 +200,9 @@ def WDTTToWDT():
         
     UR5.MoveL(UR_2_Pose(Pose_2_UR(T_URtTCP)), blocking=True)    # Run your rm.Mat through a conversion and back and it works...
     tls.student_tool_detach() 
-def WDTtoHome():
+def WDTleftopen():
     Location = [1.134165, -85.338016, -134.603689, -147.314741, -89.142692, 185.211334]
     UR5.MoveL(Location, blocking=True)
-    UR5.MoveJ(RDK.Item("Home_R", ITEM_TYPE_TARGET), blocking=True)
 # example 4x4 matrix 
 #np.array([[      0,        0,                0,         x ],
 #          [      0,            0,            0,         y ],

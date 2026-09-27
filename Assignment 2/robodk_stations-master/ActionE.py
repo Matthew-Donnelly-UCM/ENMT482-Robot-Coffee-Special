@@ -69,7 +69,6 @@ def InitialiseSimulateB():
     robot_program.WaitFinished()
 
 def HomeToMazzerScaleLockLeverRightTop2():
-    tls.mazzer_tool_attach_r_ati()
 
     #we need to arrive at the mazzer origin first
     theta = -60*np.pi/180
