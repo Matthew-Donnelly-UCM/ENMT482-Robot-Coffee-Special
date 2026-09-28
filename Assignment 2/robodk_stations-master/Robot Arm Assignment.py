@@ -69,34 +69,17 @@ Actions = [
 if Actions[0] == 1:
     #Action A
     tls.rancilio_tool_attach_r_ati()
-
-    tool2 = RDK.Item("WDT_Shut",  ITEM_TYPE_PROGRAM)
-    tool2.RunCode()
-
-    visual_program_2 = RDK.Item("Show_WDT_Shut", ITEM_TYPE_PROGRAM)
-    visual_program_2.RunCode()
-    visual_program_2.WaitFinished()
-
+    tls.wdt_shut()
     HomeToMazzerScaleTop()
     MazzerScaleTopToMazzerScale()
-    # Hide the Mazzer
-    tool = RDK.Item("Rancilio_Tool_(UR5)", ITEM_TYPE_TOOL)
-    tool.setVisible(False)
-
     MazzerScaleToHome()
 
 if Actions[1] == 1:
     #Action B
-    visual_program = RDK.Item("Show_Mazzer_Scale_Read", ITEM_TYPE_PROGRAM)
-    visual_program.RunCode()
-    visual_program.WaitFinished()
     tls.mazzer_tool_attach_r_ati()
     HomeToMazzerScaleLockLeverRightTop()
     SlideInXDirectionAcrossLock()
     SlideInzDirectionAcrossLock()
-    visual_program = RDK.Item("Show_Mazzer_Scale_Lock", ITEM_TYPE_PROGRAM)
-    visual_program.RunCode()
-    visual_program.WaitFinished()
 
 if Actions[2] == 1:
     home_to_mazzer_button()
@@ -110,9 +93,6 @@ if Actions[3] == 1:
     dosing_action()
 
 if Actions[4] == 1:
-    visual_program = RDK.Item("Show_Mazzer_Scale_Lock", ITEM_TYPE_PROGRAM)
-    visual_program.RunCode()
-    visual_program.WaitFinished()
     HomeToMazzerScaleLockLeverRightTop2()
     SlideInXDirectionAcrossLock2()
     SlideInzDirectionAcrossLock2()
@@ -120,28 +100,15 @@ if Actions[4] == 1:
 if Actions[5] == 1:
     tls.mazzer_tool_detach_r_ati()
     HomeToMazzerPickUp()
-    visual_program = RDK.Item("Hide_Mazzer_Scale_Rancilio_Tool", ITEM_TYPE_PROGRAM)
-    visual_program.RunCode()
-    visual_program.WaitFinished()
     CollectMazzerTool()
-    tool.setVisible(True)
     TopOfMazzerTool()
 
 if Actions[6] == 1:
-    tool2.RunCode()
-    tool2.WaitFinished()
-
-    visual_program_3 = RDK.Item("Show_WDT_Open", ITEM_TYPE_PROGRAM)
-    visual_program_3.RunCode()
-    visual_program_3.WaitFinished()
-
+    tls.wdt_open()
     MazzerPickUpToWDTTop(50)
     WDTTToWDT()
-    visual_program_4 = RDK.Item("Show_WDT_Rancilio_Tool", ITEM_TYPE_PROGRAM)
-    visual_program_4.RunCode()
-    visual_program_4.WaitFinished()
-    tool.setVisible(False)
     WDTleftopen()
+    tls.wdt_shut()
 
 
 
