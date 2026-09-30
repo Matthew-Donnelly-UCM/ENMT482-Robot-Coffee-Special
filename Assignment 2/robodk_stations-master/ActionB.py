@@ -68,12 +68,12 @@ def HomeToMazzerScaleLockLeverRightTop():
     T1_1 = Translation_matrix(20, -59.53, -15)
     MStMSLLR = R1_1 + T1_1
 
-    theta = 15*np.pi/180
+    theta = 35*np.pi/180
     R1 = Rotational_matrix_x(theta)
     T1 = Translation_matrix(0,0,0)
     MSLLRtMSLLRR = R1 + T1
 
-    heta = (np.pi/180)*-50 
+    theta = (np.pi/180)*-50 
     R2 = Rotational_matrix_z(theta)
     T2 = Translation_matrix(0, 0, 0)
     TCPtMT_np = R2 + T2
@@ -97,10 +97,14 @@ def HomeToMazzerScaleLockLeverRightTop():
 
     MStMTCCT = inverse_transform_matrix(R4, 0, 0, 0)
 
-    midpoint = [-31.687970, -96.574722, -124.232490, -41.939096, 103.471020, -75.459446]
+    theta = -90*np.pi/180
+
+    MSRtMS = inverse_transform_z(theta, 0, 0, 0)
+
+    midpoint = [-33.211816, -95.376342, -112.095202, -61.406603, 92.768470, -12.917822]
     UR5.MoveJ(midpoint, blocking=True)
 
-    URtTCP = URtMS_np @ MStMSLLR @ MSLLRtMSLLRR @ MStMTCCT @ MTCCTtMT @ MTtTCP
+    URtTCP = URtMS_np @ MStMSLLR @ MSLLRtMSLLRR @ MSRtMS @ MStMTCCT @ MTCCTtMT @ MTtTCP
     T_URtTCP = rm.Mat(URtTCP.tolist())
     UR5.MoveJ(T_URtTCP, blocking=True)
 
@@ -117,12 +121,12 @@ def SlideInXDirectionAcrossLock():
     T1_1 = Translation_matrix(40, -59.53, -15)
     MStMSLLR = R1_1 + T1_1
 
-    theta = 15*np.pi/180
+    theta = 35*np.pi/180
     R1 = Rotational_matrix_x(theta)
     T1 = Translation_matrix(0,0,0)
     MSLLRtMSLLRR = R1 + T1
 
-    heta = (np.pi/180)*-50 
+    theta = (np.pi/180)*-50 
     R2 = Rotational_matrix_z(theta)
     T2 = Translation_matrix(0, 0, 0)
     TCPtMT_np = R2 + T2
@@ -146,7 +150,11 @@ def SlideInXDirectionAcrossLock():
 
     MStMTCCT = inverse_transform_matrix(R4, 0, 0, 0)
 
-    URtTCP = URtMS_np @ MStMSLLR @ MSLLRtMSLLRR @ MStMTCCT @ MTCCTtMT @ MTtTCP
+    theta = -90*np.pi/180
+    
+    MSRtMS = inverse_transform_z(theta, 0, 0, 0)
+
+    URtTCP = URtMS_np @ MStMSLLR @ MSLLRtMSLLRR @ MSRtMS @ MStMTCCT @ MTCCTtMT @ MTtTCP
     T_URtTCP = rm.Mat(URtTCP.tolist())
     UR5.MoveJ(T_URtTCP, blocking=True)
 
@@ -162,12 +170,12 @@ def SlideInzDirectionAcrossLock():
     T1_1 = Translation_matrix(40, -59.53, -25)
     MStMSLLR = R1_1 + T1_1
 
-    theta = 15*np.pi/180
+    theta = 35*np.pi/180
     R1 = Rotational_matrix_x(theta)
     T1 = Translation_matrix(0,0,0)
     MSLLRtMSLLRR = R1 + T1
 
-    heta = (np.pi/180)*-50 
+    theta = (np.pi/180)*-50 
     R2 = Rotational_matrix_z(theta)
     T2 = Translation_matrix(0, 0, 0)
     TCPtMT_np = R2 + T2
@@ -191,7 +199,10 @@ def SlideInzDirectionAcrossLock():
 
     MStMTCCT = inverse_transform_matrix(R4, 0, 0, 0)
 
-    URtTCP = URtMS_np @ MStMSLLR @ MSLLRtMSLLRR @ MStMTCCT @ MTCCTtMT @ MTtTCP
+    theta = -90*np.pi/180
+    MSRtMS = inverse_transform_z(theta, 0, 0, 0)
+
+    URtTCP = URtMS_np @ MStMSLLR @ MSLLRtMSLLRR @ MSRtMS @ MStMTCCT @ MTCCTtMT @ MTtTCP
     T_URtTCP = rm.Mat(URtTCP.tolist())
     UR5.MoveJ(T_URtTCP, blocking=True)
 

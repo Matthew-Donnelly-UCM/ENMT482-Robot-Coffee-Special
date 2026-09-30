@@ -201,7 +201,7 @@ def WDTTToWDT():
     UR5.MoveL(UR_2_Pose(Pose_2_UR(T_URtTCP)), blocking=True)    # Run your rm.Mat through a conversion and back and it works...
     tls.student_tool_detach() 
 def WDTleftopen():
-    Location = [1.134165, -85.338016, -134.603689, -147.314741, -89.142692, 185.211334]
+    Location = [3.462210, -85.438446, -150.300195, -124.194508, -86.064749, 140.268358]
     UR5.MoveL(Location, blocking=True)
 # example 4x4 matrix 
 #np.array([[      0,        0,                0,         x ],

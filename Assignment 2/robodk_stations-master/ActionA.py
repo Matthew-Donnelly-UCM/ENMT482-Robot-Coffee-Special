@@ -201,13 +201,7 @@ def MazzerScaleToHome():
     URtTCP = URtMS_np @  MStMSBB_np @ MSBBtMSRP_np  @ TCPFtMSRP_inv_np @ TCPtTCPF_inv_np
 
     T_URtTCP = rm.Mat(URtTCP.tolist())
-
-    Detach_program = RDK.Item("Show_Mazzer_Scale_Rancilio_Tool", ITEM_TYPE_PROGRAM)
-    Detach_program.RunCode()
-    Detach_program.WaitFinished()
-
     
-
     UR5.MoveL(T_URtTCP, blocking=True)
 
     #after detachment move to this point to reduce chance of collision
