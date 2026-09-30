@@ -161,7 +161,7 @@ def mazzer_pull_lever_0_degree():
     T_URtTCP = rm.Mat(URtTCP.tolist())
     UR5.MoveJ(rm.UR_2_Pose(rm.Pose_2_UR(T_URtTCP)), blocking=True)
 
-def mazzer_pull_lever_degree(x_change,z_change,theta_change):
+def mazzer_pull_lever_degree(theta_change):
 
     # calculated by doing the cross product of x and y vectors and finding rotation manually
     R = np.array([[-0.874, 0.203, -0.441],
@@ -195,11 +195,18 @@ def mazzer_pull_lever_degree(x_change,z_change,theta_change):
 
     MDLFFtMDLFFX = transform_matrix(R,0,0,0)
 
-    #Moving the frame to the 5 degree point
+    #Moving the frame from a set point across a radius of certain degree point
+    x_change = -(157.5*(np.sin((66 + theta_change)*np.pi/180)- np.sin(66*np.pi/180)))
+    z_change = -(157.5*(np.cos((66 + theta_change)*np.pi/180) - np.cos(66*np.pi/180)))
+
     R = Rotational_matrix_z(0)
     x = x_change
-    y = 0
+    y = 20
     z = z_change
+    print("change in X")
+    print(x_change)
+    print("change in Z")
+    print(z_change)
 
     MDLFFXtMDLFFX5 = transform_matrix(R,x,y,z)
 
@@ -234,7 +241,7 @@ def mazzer_pull_lever_degree(x_change,z_change,theta_change):
     URtTCP = URtM @ MtMDLF @ MDLFtMDLFF @ MDLFFtMDLFFX @ MDLFFXtMDLFFX5 @ MOBCLFFRRtMOBCLFFR @ MOBCLFFRtMTDBE @ MOBCLFFtMTDBE @ MTDBEtMT @ MTtTCP
 
     T_URtTCP = rm.Mat(URtTCP.tolist())
-    UR5.MoveJ(rm.UR_2_Pose(rm.Pose_2_UR(T_URtTCP)), blocking=True)
+    UR5.MoveL(rm.UR_2_Pose(rm.Pose_2_UR(T_URtTCP)), blocking=True)
 
 def dosing_action():
     client = modbus_scale_client.ModbusScaleClient(host = IP_MAZZER_3)
@@ -256,19 +263,21 @@ def dosing_action():
     mazzer_pull_lever_0_degree()
 
     RDK.ShowMessage("Value = %f" % value)
-    movement_values = [(-5,10,5), (-10,25,10), (-10,35,15), (-15,45,20), (-27.5,65,25), (-35,75,30)]
+    movement_values = np.arange(1,42,4)
+    print(movement_values)
     i = 0
     while(1):
         value = client.read() # Scale Output in grams
-        print(value)
+        value = 10
         if ((value) > (target - tolerance)):
             break
 
         # move to the next step of the puller
-        mazzer_pull_lever_degree(movement_values[i][0], movement_values[i][1], movement_values[i][2]) 
+        mazzer_pull_lever_degree(movement_values[i]) 
+        print(movement_values[i])
         i += 1
 
-        if (i == 6):
+        if (i == (len(movement_values)-1)):
             position_1 = [-12.377380, -109.368842, -109.146920, -170.020590, 359.410337, -101.437620]
             position_2 = [-34.625357, -112.320869, -102.690945, -145.206042, 313.013399, -129.555667]
             UR5.MoveJ(position_1, blocking=True)

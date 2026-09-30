@@ -60,11 +60,11 @@ def InitialiseSimulateA():
 def HomeToMazzerScaleTop():
     theta = -60*np.pi/180
     R = Rotational_matrix_z(theta)
-    T = Translation_matrix(439.4,-277.9, 41.9)
+    T = Translation_matrix(441.4,-273.5, 41.9-5)
     URtMS_np = R + T
     
     R1 = Rotational_matrix_z(0)
-    T1 = Translation_matrix(-12.1,-19, 14.5)
+    T1 = Translation_matrix(-12.2,-18.8, 15)
     MStMSBB_np = R1 + T1
 
     R2 = Rotational_matrix_z(0)
@@ -115,11 +115,11 @@ def MazzerScaleTopToMazzerScale():
     #theta = -2.0934094900519744 #theta calculated
     theta = -60*np.pi/180
     R = Rotational_matrix_z(theta)
-    T = Translation_matrix(439.4,-277.9, 41.9)
+    T = Translation_matrix(441.4,-273.5, 41.9-5)
     URtMS_np = R + T
 
     R1 = Rotational_matrix_z(0)
-    T1 = Translation_matrix(-12.1,-19, 14.5)
+    T1 = Translation_matrix(-12.2,-18.8, 15)
     MStMSBB_np = R1 + T1
 
     R2 = Rotational_matrix_z(0)
@@ -162,11 +162,11 @@ def MazzerScaleTopToMazzerScale():
 def MazzerScaleToHome():
     theta = -60*np.pi/180
     R = Rotational_matrix_z(theta)
-    T = Translation_matrix(439.4,-277.9, 41.9)
+    T = Translation_matrix(441.4,-273.5, 41.9-5)
     URtMS_np = R + T
     
     R1 = Rotational_matrix_z(0)
-    T1 = Translation_matrix(-12.1,-19, 14.5)
+    T1 = Translation_matrix(-12.2,-18.8, 15)
     MStMSBB_np = R1 + T1
 
     R2 = Rotational_matrix_z(0)
