@@ -309,7 +309,7 @@ def mazzer_press():
         UR5.MoveJ(rm.UR_2_Pose(rm.Pose_2_UR(T_URtTCP)), blocking=True)
 
 def mazzer_wait():
-    time.sleep(2)
+    time.sleep(15)
 def mazzer_button_turn_off():
 # calculated by doing the cross product of x and y vectors and finding rotation manually
     R = np.array([[-0.874, 0.203, -0.441],
