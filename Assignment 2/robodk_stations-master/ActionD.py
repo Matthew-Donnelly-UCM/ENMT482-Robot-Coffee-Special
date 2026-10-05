@@ -325,6 +325,7 @@ def dosing_action():
         RDK.ShowMessage("No scale detected, output will be simulated.")
 
     ## Scale output (grams).
+    client.tare()
     value = client.read()
     target = 20
     tolerance = 0.1
@@ -338,14 +339,17 @@ def dosing_action():
     mazzer_pull_lever_0_degree()
 
     RDK.ShowMessage("Value = %f" % value)
-    x_values = np.array([-78.843, -78.787, -78.13, -76.88, -75.0441, -72.6371, -69.6773, -66.1872])
-    y_values = np.array([-2.794, 4.08868, 10.9399, 17.7078, 24.3409, 30.7888, 37.0024, 42.9344])
+    x_values = np.array([-84.7536 , -85.3413 , -85.2807 , -84.5704 , -83.2165 , -81.2293  , -78.6239, -75.4202, -71.6424])
+    y_values = np.array([-10.4504 , -3.02428 , 4.42567 , 11.8416, 19.1673 , 26.3471 , 33.3264 , 40.0522, 46.4731  ])
     x_diff = -(x_values - -78.3) 
     y_diff = y_values - -9.65464             
-    angle = 5,10,15,20,25,30,35,40
+    angle = 5,10,15,20,25,30,35,40,45
     i = 0
     while(1):
         value = client.read() # Scale Output in grams
+        value = 10
+        print(value)
+        print(angle[i])
         if ((value) > (target - tolerance)):
             break
 
@@ -353,7 +357,7 @@ def dosing_action():
         mazzer_pull_lever_degree(x_diff[i], y_diff[i], angle[i]) 
         i += 1
 
-        if (i + 1 == 8):
+        if (i + 1 == 9):
             mazzer_pull_lever_degree_disengage(x_diff[i], y_diff[i], angle[i])
             position_1 = [-12.377380, -109.368842, -109.146920, -170.020590, 359.410337, -101.437620]
             position_2 = [-34.625357, -112.320869, -102.690945, -145.206042, 313.013399, -129.555667]
