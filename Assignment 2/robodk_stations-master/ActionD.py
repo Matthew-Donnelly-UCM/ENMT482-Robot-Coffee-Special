@@ -330,8 +330,9 @@ def dosing_action():
     target = 20
     tolerance = 0.1
 
-    starting_joint = [-38.333723, -85.458041, -133.766649, -140.818270, 292.992198, -129.616853]
-    mid_joint = [-37.132152, -110.515319, -105.384296, -144.148589, 294.156847, -129.623343]
+    UR5.MoveJ(RDK.Item("Home_R", ITEM_TYPE_TARGET), True)
+    starting_joint = [41.007028,	-116.752284,	132.014793,	-16.560871,	11.772238,	-128.597617]
+    mid_joint = [116.489686, -69.485466, 105.385448, -35.855966, 87.778693, -129.644776]
     UR5.MoveJ(starting_joint, blocking=True)
     UR5.MoveJ(mid_joint, blocking=True)
 
@@ -339,40 +340,63 @@ def dosing_action():
     mazzer_pull_lever_0_degree()
 
     RDK.ShowMessage("Value = %f" % value)
-    x_values = np.array([-84.7536 , -85.3413 , -85.2807 , -84.5704 , -83.2165 , -81.2293  , -78.6239, -75.4202, -71.6424])
-    y_values = np.array([-10.4504 , -3.02428 , 4.42567 , 11.8416, 19.1673 , 26.3471 , 33.3264 , 40.0522, 46.4731  ])
+    start = np.array([-84.7536, -10.4504])
+    end = np.array([-71.6424, 46.4731])
+    radius = 80.0
+    point_count = 10
+
+    chord = end - start
+    chord_length = np.linalg.norm(chord)
+    midpoint = (start + end) / 2
+    perpendicular = np.array([-chord[1], chord[0]]) / chord_length
+    center_offset = np.sqrt(radius**2 - (chord_length / 2) ** 2)
+    centers = np.array([
+        midpoint + center_offset * perpendicular,
+        midpoint - center_offset * perpendicular,
+    ])
+    center = centers[np.argmin(np.linalg.norm(centers, axis=1))]
+
+    start_angle = np.arctan2(start[1] - center[1], start[0] - center[0])
+    end_angle = np.arctan2(end[1] - center[1], end[0] - center[0])
+    angle_delta = (end_angle - start_angle + np.pi) % (2 * np.pi) - np.pi
+    angles = np.linspace(start_angle, start_angle + angle_delta, point_count)
+    x_values = center[0] + radius * np.cos(angles)
+    y_values = center[1] + radius * np.sin(angles)
+    x_values[[0, -1]] = [start[0], end[0]]
+    y_values[[0, -1]] = [start[1], end[1]]
+
     x_diff = -(x_values - -78.3) 
     y_diff = y_values - -9.65464             
-    angle = 5,10,15,20,25,30,35,40,45
+    angle = tuple(range(5, 46))
     i = 0
     while(1):
         value = client.read() # Scale Output in grams
-        value = 10
         print(value)
-        print(angle[i])
         if ((value) > (target - tolerance)):
             break
 
         # move to the next step of the puller
         mazzer_pull_lever_degree(x_diff[i], y_diff[i], angle[i]) 
-        i += 1
 
-        if (i + 1 == 9):
+        if (i + 1 == point_count):
             mazzer_pull_lever_degree_disengage(x_diff[i], y_diff[i], angle[i])
-            position_1 = [-12.377380, -109.368842, -109.146920, -170.020590, 359.410337, -101.437620]
-            position_2 = [-34.625357, -112.320869, -102.690945, -145.206042, 313.013399, -129.555667]
+            position_1 = [41.007028,	-116.752284,	132.014793,	-16.560871,	11.772238,	-128.597617]
+            position_2 = [116.489686, -69.485466, 105.385448, -35.855966, 87.778693, -129.644776]
             UR5.MoveJ(position_1, blocking=True)
             UR5.MoveJ(position_2, blocking=True)
             i = -1
 
         i += 1
     mazzer_pull_lever_degree_disengage(x_diff[i], y_diff[i], angle[i])
-    position_1 = [-12.377380, -109.368842, -109.146920, -170.020590, 359.410337, -101.437620]
-    position_2 = [-34.625357, -112.320869, -102.690945, -145.206042, 313.013399, -129.555667]
+    position_1 = [41.007028,	-116.752284,	132.014793,	-16.560871,	11.772238,	-128.597617]
+    position_2 = [116.489686, -69.485466, 105.385448, -35.855966, 87.778693, -129.644776]
     UR5.MoveJ(position_1, blocking=True)
     UR5.MoveJ(position_2, blocking=True)
+    mid_move = [60.143783, -116.784959, 128.155500, 34.752720, 91.105475, -156.346820]
+    UR5.MoveJ(mid_move, blocking=True)
     final_position = [-32.826039, -104.116544, -91.478512, -253.754174, 270.092468, -85.322825]
     UR5.MoveJ(final_position, blocking=True)
+
     
 # example 4x4 matrix 
 #np.array([[      0,        0,                0,         x ],
