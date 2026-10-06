@@ -93,7 +93,6 @@ def ActionP():
     if client.server_exists() == False:
         RDK.ShowMessage("No scale detected, output will be simulated.")
 
-    client.tare()
 
 
 
@@ -184,6 +183,9 @@ def ActionP():
 
     target = 32
     tolerance = 0.1
+
+    client.tare()
+
 
     while (1):
         
