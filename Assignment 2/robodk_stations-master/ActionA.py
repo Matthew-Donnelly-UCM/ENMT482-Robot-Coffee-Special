@@ -58,14 +58,13 @@ def InitialiseSimulateA():
     robot_program.WaitFinished()
 
 def HomeToMazzerScaleTop():
-    tls.rancilio_tool_attach_r_ati()
     theta = -60*np.pi/180
     R = Rotational_matrix_z(theta)
-    T = Translation_matrix(439.4,-277.9, 41.9)
+    T = Translation_matrix(441.4,-273.5, 41.9-5)
     URtMS_np = R + T
     
     R1 = Rotational_matrix_z(0)
-    T1 = Translation_matrix(-12.1,-19, 14.5)
+    T1 = Translation_matrix(-12.2,-18.8, 15)
     MStMSBB_np = R1 + T1
 
     R2 = Rotational_matrix_z(0)
@@ -116,11 +115,11 @@ def MazzerScaleTopToMazzerScale():
     #theta = -2.0934094900519744 #theta calculated
     theta = -60*np.pi/180
     R = Rotational_matrix_z(theta)
-    T = Translation_matrix(439.4,-277.9, 41.9)
+    T = Translation_matrix(441.4,-273.5, 41.9-5)
     URtMS_np = R + T
 
     R1 = Rotational_matrix_z(0)
-    T1 = Translation_matrix(-12.1,-19, 14.5)
+    T1 = Translation_matrix(-12.2,-18.8, 15)
     MStMSBB_np = R1 + T1
 
     R2 = Rotational_matrix_z(0)
@@ -163,11 +162,11 @@ def MazzerScaleTopToMazzerScale():
 def MazzerScaleToHome():
     theta = -60*np.pi/180
     R = Rotational_matrix_z(theta)
-    T = Translation_matrix(439.4,-277.9, 41.9)
+    T = Translation_matrix(441.4,-273.5, 41.9-5)
     URtMS_np = R + T
     
     R1 = Rotational_matrix_z(0)
-    T1 = Translation_matrix(-12.1,-19, 14.5)
+    T1 = Translation_matrix(-12.2,-18.8, 15)
     MStMSBB_np = R1 + T1
 
     R2 = Rotational_matrix_z(0)
@@ -202,19 +201,12 @@ def MazzerScaleToHome():
     URtTCP = URtMS_np @  MStMSBB_np @ MSBBtMSRP_np  @ TCPFtMSRP_inv_np @ TCPtTCPF_inv_np
 
     T_URtTCP = rm.Mat(URtTCP.tolist())
-
-    Detach_program = RDK.Item("Show_Mazzer_Scale_Rancilio_Tool", ITEM_TYPE_PROGRAM)
-    Detach_program.RunCode()
-    Detach_program.WaitFinished()
-
     
-
     UR5.MoveL(T_URtTCP, blocking=True)
 
     #after detachment move to this point to reduce chance of collision
     detach_point = [-9.880000, -103.840000, -130.680000, -125.740000, 1.410000, 136.940000]
     UR5.MoveJ(detach_point, True)
-    UR5.MoveJ(RDK.Item("Home_R", ITEM_TYPE_TARGET), True)
 # example 4x4 matrix 
 #np.array([[      0,        0,                0,         x ],
 #          [      0,            0,            0,         y ],

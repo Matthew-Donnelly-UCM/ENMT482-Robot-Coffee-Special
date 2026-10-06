@@ -5,9 +5,10 @@ from robodk.robolink import *
 from ActionA import InitialiseSimulateA, HomeToMazzerScaleTop, MazzerScaleTopToMazzerScale, MazzerScaleToHome
 from ActionB import HomeToMazzerScaleLockLeverRightTop, SlideInXDirectionAcrossLock, SlideInzDirectionAcrossLock
 from ActionC import home_to_mazzer_button, mazzer_button_pressed_on, mazzer_press, mazzer_wait, mazzer_button_turn_off, mazzer_button_turn_off_pressed
+from ActionD import dosing_action
 from ActionE import HomeToMazzerScaleLockLeverRightTop2, SlideInXDirectionAcrossLock2, SlideInzDirectionAcrossLock2
-from ActionF import HomeToMazzerPickUp, CollectMazzerTool
-from ActionG import MazzerPickUpToWDTTop, WDTTToWDT, WDTtoHome
+from ActionF import HomeToMazzerPickUp, CollectMazzerTool, TopOfMazzerTool
+from ActionG import MazzerPickUpToWDTTop, WDTTToWDT, WDTleftopen
 from ActionL import ActionL
 from ActionO import ActionO
 from ActionP import ActionP
@@ -41,10 +42,10 @@ robot_program.WaitFinished()
 
 
 Actions = [
-    0,  # A
-    0,  # B
-    0,  # C
-    0,  # D
+    1,  # A
+    1,  # B
+    1,  # C
+    1,  # D
     0,  # E
     0,  # F
     0,  # G
@@ -58,7 +59,7 @@ Actions = [
     0,  # O
     0,  # P
     0,  # Q
-    1,  # R
+    0,  # R
     0,  # S
     0,  # T
     0,  # U
@@ -67,21 +68,19 @@ Actions = [
 
 if Actions[0] == 1:
     #Action A
+    tls.rancilio_tool_attach_r_ati()
+    tls.wdt_shut()
     HomeToMazzerScaleTop()
     MazzerScaleTopToMazzerScale()
     MazzerScaleToHome()
-# tls.rancilio_tool_detach_r_ati()
+
 if Actions[1] == 1:
     #Action B
-    visual_program = RDK.Item("Show_Mazzer_Scale_Read", ITEM_TYPE_PROGRAM)
-    visual_program.RunCode()
-    visual_program.WaitFinished()
+    tls.mazzer_tool_attach_r_ati()
     HomeToMazzerScaleLockLeverRightTop()
     SlideInXDirectionAcrossLock()
     SlideInzDirectionAcrossLock()
-    visual_program = RDK.Item("Show_Mazzer_Scale_Lock", ITEM_TYPE_PROGRAM)
-    visual_program.RunCode()
-    visual_program.WaitFinished()
+
 if Actions[2] == 1:
     home_to_mazzer_button()
     mazzer_button_pressed_on()
@@ -90,25 +89,26 @@ if Actions[2] == 1:
     mazzer_button_turn_off()
     mazzer_button_turn_off_pressed()
 
+if Actions[3] == 1:
+    dosing_action()
+
 if Actions[4] == 1:
-    visual_program = RDK.Item("Show_Mazzer_Scale_Lock", ITEM_TYPE_PROGRAM)
-    visual_program.RunCode()
-    visual_program.WaitFinished()
     HomeToMazzerScaleLockLeverRightTop2()
     SlideInXDirectionAcrossLock2()
     SlideInzDirectionAcrossLock2()
 
 if Actions[5] == 1:
-    visual_program = RDK.Item("Show_Mazzer_Scale_Rancilio_Tool", ITEM_TYPE_PROGRAM)
-    visual_program.RunCode()
-    visual_program.WaitFinished()
+    tls.mazzer_tool_detach_r_ati()
     HomeToMazzerPickUp()
     CollectMazzerTool()
+    TopOfMazzerTool()
 
 if Actions[6] == 1:
+    tls.wdt_open()
     MazzerPickUpToWDTTop(50)
     WDTTToWDT()
-    WDTtoHome()
+    WDTleftopen()
+    tls.wdt_shut()
 
 
 
