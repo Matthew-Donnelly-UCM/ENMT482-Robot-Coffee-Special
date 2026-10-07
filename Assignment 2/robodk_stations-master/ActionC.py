@@ -337,7 +337,7 @@ def mazzer_button_turn_off():
     theta = -65.2
     R = Rotational_matrix_x(theta)
         
-    MOBCtMOBCF = transform_matrix(R,15,0,0)
+    MOBCtMOBCF = transform_matrix(R,10,10,0)
 
     #Now lets now rotate it by Y 
     theta = 90
@@ -407,7 +407,7 @@ def mazzer_button_turn_off_pressed():
     theta = -65.2
     R = Rotational_matrix_x(theta)
         
-    MOBCtMOBCF = transform_matrix(R,15,0,0)
+    MOBCtMOBCF = transform_matrix(R,10,10,0)
 
     #Now lets now rotate it by Y 
     theta = 90
