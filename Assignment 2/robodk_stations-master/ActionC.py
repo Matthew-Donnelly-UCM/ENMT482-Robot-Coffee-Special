@@ -309,7 +309,7 @@ def mazzer_press():
         UR5.MoveJ(rm.UR_2_Pose(rm.Pose_2_UR(T_URtTCP)), blocking=True)
 
 def mazzer_wait():
-    time.sleep(15)
+    time.sleep(2)
 def mazzer_button_turn_off():
 # calculated by doing the cross product of x and y vectors and finding rotation manually
     R = np.array([[-0.874, 0.203, -0.441],
@@ -337,7 +337,7 @@ def mazzer_button_turn_off():
     theta = -65.2
     R = Rotational_matrix_x(theta)
         
-    MOBCtMOBCF = transform_matrix(R,0,0,0)
+    MOBCtMOBCF = transform_matrix(R,15,0,0)
 
     #Now lets now rotate it by Y 
     theta = 90
@@ -407,7 +407,7 @@ def mazzer_button_turn_off_pressed():
     theta = -65.2
     R = Rotational_matrix_x(theta)
         
-    MOBCtMOBCF = transform_matrix(R,0,0,0)
+    MOBCtMOBCF = transform_matrix(R,15,0,0)
 
     #Now lets now rotate it by Y 
     theta = 90

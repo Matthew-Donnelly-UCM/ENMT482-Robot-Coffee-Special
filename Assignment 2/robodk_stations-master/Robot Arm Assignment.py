@@ -33,8 +33,8 @@ UR5 = RDK.Item("UR5", ITEM_TYPE_ROBOT)
 #   After creating a `Robolink()` object, items within the RoboDK station tree
 #   are able to be retrieved by name, item type, or both.
 # Work in simulation mode
-# RDK.setRunMode(RUNMODE_SIMULATE)
-RDK.setRunMode(RUNMODE_RUN_ROBOT)
+RDK.setRunMode(RUNMODE_SIMULATE)
+#RDK.setRunMode(RUNMODE_RUN_ROBOT)
 
 
 UR5 = RDK.Item("UR5", ITEM_TYPE_ROBOT)
@@ -47,28 +47,28 @@ robot_program.WaitFinished()
 
 
 Actions = [
-    0,  # A
-    0,  # B
-    0,  # C
+    1,  # A
+    1,  # B
+    1,  # C
     0,  # D
-    1,  # E
-    1,  # F
-    1,  # G
-    1,  # H
-    1,  # I
-    1,  # J
-    1,  # K
-    1,  # L
-    1,  # M
-    1,  # N
-    1,  # O
-    1,  # P
-    1,  # Q
-    1,  # R
-    1,  # S
-    1,  # T
-    1,  # U
-    1,  # V
+    0,  # E
+    0,  # F
+    0,  # G
+    0,  # H
+    0,  # I
+    0,  # J
+    0,  # K
+    0,  # L
+    0,  # M
+    0,  # N
+    0,  # O
+    0,  # P
+    0,  # Q
+    0,  # R
+    0,  # S
+    0,  # T
+    0,  # U
+    0,  # V
 ]
 
 if Actions[0] == 1:
@@ -84,9 +84,9 @@ if Actions[0] == 1:
 if Actions[1] == 1:
     #Action B
     tls.mazzer_tool_attach_r_ati()
-    HomeToMazzerScaleLockLeverRightTop()
-    SlideInXDirectionAcrossLock()
-    SlideInzDirectionAcrossLock()
+    HomeToMazzerScaleLockLeverRightTop2()
+    SlideInXDirectionAcrossLock2()
+    SlideInzDirectionAcrossLock2()
 
 if Actions[2] == 1:
     home_to_mazzer_button()
@@ -101,9 +101,9 @@ if Actions[3] == 1:
     dosing_action()
 
 if Actions[4] == 1:
-    HomeToMazzerScaleLockLeverRightTop2()
-    SlideInXDirectionAcrossLock2()
-    SlideInzDirectionAcrossLock2()
+    HomeToMazzerScaleLockLeverRightTop()
+    SlideInXDirectionAcrossLock()
+    SlideInzDirectionAcrossLock()
 
 if Actions[5] == 1:
     tls.mazzer_tool_detach_r_ati()

@@ -341,7 +341,7 @@ def dosing_action():
 
     RDK.ShowMessage("Value = %f" % value)
     start = np.array([-84.7536, -10.4504])
-    end = np.array([-71.6424, 46.4731])
+    end = np.array([-62.484, 58.2076])
     radius = 80.0
     point_count = 10
 
@@ -367,7 +367,7 @@ def dosing_action():
 
     x_diff = -(x_values - -78.3) 
     y_diff = y_values - -9.65464             
-    angle = tuple(range(5, 46))
+    angle = tuple(range(5, 65))
     i = 0
     while(1):
         value = client.read() # Scale Output in grams
@@ -380,7 +380,7 @@ def dosing_action():
 
         if (i + 1 == point_count):
             mazzer_pull_lever_degree_disengage(x_diff[i], y_diff[i], angle[i])
-            position_1 = [41.007028,	-116.752284,	132.014793,	-16.560871,	11.772238,	-128.597617]
+            position_1 = [113.011181, -81.999535, 103.877233, -21.692676, 83.847025, -129.539146]
             position_2 = [116.489686, -69.485466, 105.385448, -35.855966, 87.778693, -129.644776]
             UR5.MoveJ(position_1, blocking=True)
             UR5.MoveJ(position_2, blocking=True)
@@ -388,10 +388,8 @@ def dosing_action():
 
         i += 1
     mazzer_pull_lever_degree_disengage(x_diff[i], y_diff[i], angle[i])
-    position_1 = [41.007028,	-116.752284,	132.014793,	-16.560871,	11.772238,	-128.597617]
-    position_2 = [116.489686, -69.485466, 105.385448, -35.855966, 87.778693, -129.644776]
+    position_1 = [113.011181, -81.999535, 103.877233, -21.692676, 83.847025, -129.539146]
     UR5.MoveJ(position_1, blocking=True)
-    UR5.MoveJ(position_2, blocking=True)
     mid_move = [60.143783, -116.784959, 128.155500, 34.752720, 91.105475, -156.346820]
     UR5.MoveJ(mid_move, blocking=True)
     final_position = [-32.826039, -104.116544, -91.478512, -253.754174, 270.092468, -85.322825]
