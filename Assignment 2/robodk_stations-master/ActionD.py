@@ -371,7 +371,6 @@ def dosing_action():
     i = 0
     while(1):
         value = client.read() # Scale Output in grams
-        value = 10
         print(value)
         if ((value) > (target - tolerance)):
             break
