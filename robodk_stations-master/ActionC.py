@@ -430,6 +430,8 @@ def mazzer_button_turn_off_pressed():
     T2 = Translation_matrix(0, 0, 0)
     #TCPtMT_np = R2 + T2
 
+    
+
     MTtTCP = inverse_transform_z(theta, 0, 0, 0)
 
     R3 = Rotational_matrix_z(0)

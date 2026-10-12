@@ -342,10 +342,6 @@ def dosing_action():
     RDK.ShowMessage("Value = %f" % value)
     start = np.array([-84.7536, -10.4504])
     end = np.array([-61.4586, 59.2892])
-    # end values
-    # 66 degrees [-61.4586, 59.2892]
-    # 65 degrees [-67.3193, 52.5403 ]
-    # 65.5 degrees [-61.9561 , 58.7691 ]
     radius = 80.0
     point_count = 10
 
@@ -370,8 +366,7 @@ def dosing_action():
     y_values[[0, -1]] = [start[1], end[1]]
 
     x_diff = -(x_values - -78.3) 
-    y_diff = y_values - -9.65464 
-    # change angle here             
+    y_diff = y_values - -9.65464             
     angle = tuple(range(5, 66))
     i = 0
     while(1):
